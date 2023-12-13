@@ -8,6 +8,8 @@
     <title>SITA | {{ $title }}</title>
 </head>
 <body>
-    @yield('container')
+    <div class="w-full h-screen px-[110px] py-[60px]">
+        @yield('container')
+    </div>
 </body>
 </html>
