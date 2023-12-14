@@ -24,7 +24,7 @@
                 <input type="password" placeholder="password" class="input input-bordered w-full max-w-lg rounded-full drop-shadow-xl @error('password')
                     border-red-500
                 @enderror " name="password" autocomplete="off" />
-                <input type="hidden" name="role" value="admin">
+                <input type="hidden" name="role" value="mahasiswa">
                 <button class="btn w-full max-w-sm self-center bg-[#BDF6BC] rounded-full drop-shadow-xl border-none my-3">Register</button>
             </form>
             <h2 class="self-center mt-3 text-sm font-normal">or register using :</h2>
