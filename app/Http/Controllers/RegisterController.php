@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Mahasiswa;
 
 class RegisterController extends Controller
 {
@@ -29,7 +30,6 @@ class RegisterController extends Controller
             'email' => $userGoogle->getEmail()
         ], [
             'username' => $userGoogle->getName(),
-            'nama' => $userGoogle->getName(),
             'email' => $userGoogle->getEmail(),
             'password' => $userGoogle->token,
             'role' => 'mahasiswa'
@@ -37,7 +37,13 @@ class RegisterController extends Controller
 
         Auth::login($user);
 
-        return redirect()->to('dashboard');
+        $data_mahasiswa = [
+            'user_id' => auth()->user()->id
+        ];
+
+        Mahasiswa::create($data_mahasiswa);
+
+        return redirect()->to('mahasiswa');
     }
 
     /**
@@ -67,9 +73,15 @@ class RegisterController extends Controller
 
         User::create($validated);
 
-        return redirect()->to('login')->with([
-            'success' => 'Registrasi berhasil, silahkan login'
-        ]);
+        Auth::attempt($validated);
+
+        $data_mahasiswa = [
+            'user_id' => auth()->user()->id
+        ];
+
+        Mahasiswa::create($data_mahasiswa);
+
+        return redirect()->to('mahasiswa');
     }
 
     /**

@@ -2,19 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pegawai;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Laravel\Socialite\Facades\Socialite;
 
-class LoginController extends Controller
+class PegawaiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('login', ['title' => 'Login']);
+        return view('pegawai.index', ['title' => 'Dosen']);
     }
 
     /**
@@ -31,29 +30,30 @@ class LoginController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required',
-            'password' => 'required',
+            'nama' => 'required',
+            'nip' => 'required',
+            'jabatan' => 'required',
+            'kategori_pegawai' => 'required',
+            'status_kepegawaian' => 'required',
         ]);
 
         if($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+            return back()->withErrors($validator);
         }
 
         $validated = $validator->validated();
 
-        if(Auth::attempt($validated)) {
-            return redirect()->to('mahasiswa');
-        }
+        Pegawai::create($validated);
 
-        return back()->withErrors([
-            'error' => 'Username atau password salah !'
+        return back()->with([
+            'success' => 'Data pegawai berhasil ditambahkan'
         ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Pegawai $pegawai)
     {
         //
     }
@@ -61,7 +61,7 @@ class LoginController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Pegawai $pegawai)
     {
         //
     }
@@ -69,7 +69,7 @@ class LoginController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Pegawai $pegawai)
     {
         //
     }
@@ -77,19 +77,8 @@ class LoginController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request)
+    public function destroy(Pegawai $pegawai)
     {
         //
-    }
-
-    public function logout(Request $request) {
-
-        Auth::logout();
-
-        $request->session()->invalidate();
-
-        $request->session()->regenerateToken();
-
-        return redirect()->to('login');
     }
 }
