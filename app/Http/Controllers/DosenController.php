@@ -12,7 +12,13 @@ class DosenController extends Controller
      */
     public function index()
     {
-        //
+        if(auth()->user()->avatar) {
+            $avatar = asset('storage/' . auth()->user()->avatar);
+        } else {
+            $avatar = asset('img/user1.png');
+        }
+
+        return view('dosen.index', ['title' => 'Dashboard', 'avatar' => $avatar]);
     }
 
     /**
@@ -61,5 +67,16 @@ class DosenController extends Controller
     public function destroy(Dosen $dosen)
     {
         //
+    }
+
+    public function listMahasiswa()
+    {
+        if(auth()->user()->avatar) {
+            $avatar = asset('storage/' . auth()->user()->avatar);
+        } else {
+            $avatar = asset('img/user1.png');
+        }
+
+        return view('dosen.listMahasiswa', ['title' => 'Mahasiswa', 'avatar' => $avatar]);
     }
 }

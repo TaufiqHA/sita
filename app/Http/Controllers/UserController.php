@@ -38,7 +38,15 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('user.index', ['title' => 'User settings', 'data' => $user]);
+        if(auth()->user()->avatar) {
+            $avatar = asset('storage/' . auth()->user()->avatar);
+        } else {
+            $avatar = asset('img/user1.png');
+        }
+
+        $data = $user;
+
+        return view('user.index', ['title' => 'Pengaturan Akun', 'data' => $user, 'avatar' => $avatar, 'data' => $data ]);
     }
 
     /**
@@ -55,6 +63,8 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $validator = Validator::make($request->all(), [
+            'username' => 'required',
+            'email' => 'required',
             'avatar' => [
                 ' nullable ',
                 File::types(['jpg', 'jpeg', 'png'])
@@ -67,12 +77,15 @@ class UserController extends Controller
 
         $validated = $validator->validated();
 
-        $validated['avatar'] = $request->file('avatar')->store('image');
+        if($request->file('avatar'))
+        {
+            $validated['avatar'] = $request->file('avatar')->store('image');
+        }
 
         User::where('id', $user->id)->update($validated);
 
         return back()->with([
-            'success' => 'Avatar berhasil diubah'
+            'success' => 'Data berhasil diubah'
         ]);
     }
 
@@ -82,26 +95,5 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         //
-    }
-
-    public function userEdit(Request $request, User $user)
-    {
-        $validator = Validator::make($request->all(), [
-            'username' => 'required',
-            'email' => 'required|email:dns',
-        ]);
-
-        if($validator->fails())
-        {
-            return back()->withErrors($validator);
-        }
-
-        $validated = $validator->validated();
-
-        User::where('id', $user->id)->update($validated);
-
-        return back()->with([
-            'success' => 'Data user berhasil di ubah'
-        ]);
     }
 }

@@ -21,15 +21,11 @@
                     <img src="{{ asset('img/logo/home.svg') }}" alt="home">
                     <h2>Dashboard</h2>
                 </a>
-                <a href="/judul" class="w-44 flex justify-start items-center gap-3 bg-white py-3 pl-4 rounded-l-full hover:drop-shadow-xl @if ($title === 'Tugas Akhir')
+                <a href="{{ route('listMahasiswa') }}" class="w-44 flex justify-start items-center gap-3 bg-white py-3 pl-4 rounded-l-full hover:drop-shadow-xl @if ($title === 'Mahasiswa')
                     drop-shadow-xl
-                 @endif">
-                    <img src="{{ asset('img/logo/info.svg') }}" alt="info">
-                    <h2>Tugas Akhir</h2>
-                </a>
-                <a href="#" class="w-44 flex justify-start items-center gap-3 bg-white py-3 pl-4 rounded-l-full hover:drop-shadow-xl">
-                    <img src="{{ asset('img/logo/bimbingan.svg') }}" alt="home">
-                    <h2>Bimbingan</h2>
+                @endif">
+                    <img src="{{ asset('img/logo/list.svg') }}" alt="home">
+                    <h2>Mahasiswa</h2>
                 </a>
                 <form action="{{ route('logout') }}" method="post">
                     @csrf
@@ -41,7 +37,7 @@
                 </form>
             </div>
         </div>
-        <div class="w-full h-full flex-2 p-7 overflow-hidden">
+        <div class="w-full h-full flex-2 p-7 overflow-hidden flex flex-col gap-4">
             <div class="flex justify-between items-center">
                 <h2 class="font-semibold text-2xl">{{ $title }}</h2>
                 <div class="flex-2 flex gap-3 items-center">
@@ -55,18 +51,18 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full h-full mt-4">
+            <div>
                 @if (session()->get('success'))
-                <div role="alert" class="alert alert-success mb-3">
+                <div role="alert" class="alert alert-success">
                     <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     <span>{{ session()->get('success') }}</span>
                 </div>
                 @endif
                 @if ($errors->any())
-                <div role="alert" class="alert alert-error mb-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <div role="alert" class="alert alert-error">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     <span>{{ $errors->first() }}</span>
-                  </div>
+                </div>
                 @endif
                 @yield('container')
             </div>

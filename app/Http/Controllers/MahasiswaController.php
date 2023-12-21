@@ -20,7 +20,7 @@ class MahasiswaController extends Controller
             $avatar = asset('img/user1.png');
         }
 
-        return view('mahasiswa.dashboard', ['title' => 'Mahasiswa', 'avatar' => $avatar]);
+        return view('mahasiswa.dashboard', ['title' => 'Dashboard', 'avatar' => $avatar]);
     }
 
     /**
@@ -59,7 +59,7 @@ class MahasiswaController extends Controller
         Mahasiswa::create($validated);
 
         return back()->with([
-            'success' => 'data berhasil ditambahkan'
+            'success' => 'data berhasil Diubah'
         ]);
 
     }
@@ -75,7 +75,9 @@ class MahasiswaController extends Controller
             $avatar = asset('img/user1.png');
         }
 
-        return view('mahasiswa.data', ['title' => 'Data diri', 'avatar' => $avatar]);
+        $data = $mahasiswa;
+
+        return view('mahasiswa.data', ['title' => 'Data diri', 'avatar' => $avatar, 'data' => $data ]);
     }
 
     /**

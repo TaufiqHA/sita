@@ -67,10 +67,17 @@ Route::resource('mahasiswa', MahasiswaController::class)->names([
 Route::resource('pegawai', PegawaiController::class);
 
 // Judul
-Route::resource('judul', JudulController::class)->middleware('isLogin');
+Route::resource('judul', JudulController::class)->names([
+    'store' => 'addJudul',
+])->middleware('isLogin');
 
 // User
-Route::put('user/edit', [UserController::class, 'userEdit'])->name('userEdit')->middleware('isLogin');
 Route::resource('user', UserController::class)->names([
     'show' => 'edit.user',
 ])->middleware('isLogin');
+
+// Dosen
+
+Route::get('/listMahasiswa', [DosenController::class, 'listMahasiswa'])->name('listMahasiswa');
+
+Route::resource('dosen', DosenController::class);

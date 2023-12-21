@@ -26,7 +26,7 @@ class JudulController extends Controller
 
         $judul = auth()->user()->mahasiswa->judul;
 
-        return view('judul.index', ['title' => 'Form Pengajuan Judul', 'avatar' => $avatar, 'judul' => $judul]);
+        return view('judul.index', ['title' => 'Tugas Akhir', 'avatar' => $avatar, 'judul' => $judul]);
     }
 
     /**
@@ -42,7 +42,6 @@ class JudulController extends Controller
      */
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'mahasiswa_id' => "required",
             'konsentrasi' => 'required',
@@ -84,7 +83,16 @@ class JudulController extends Controller
      */
     public function show(Judul $judul)
     {
-        //
+        if(auth()->user()->avatar) {
+            $avatar = asset('storage/' . auth()->user()->avatar);
+        } else if(auth()->user()->avatar) {
+            $avatar = asset(asset(auth()->user()->avatar));
+        } else {
+            $avatar = asset('img/user1.png');
+        }
+
+
+       return view('judul.detail', ['title' => 'Detail Judul', 'data' => $judul, 'avatar' => $avatar]);
     }
 
     /**
