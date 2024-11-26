@@ -27,6 +27,7 @@ class ProfileUpdateRequest extends FormRequest
                 Rule::unique(Mahasiswa::class)->ignore($this->user()->id),
             ],
             'nim' => ['required', 'string', 'max:255'],
+            'sks' => ['required', 'string', 'max:255'],
             'alamat' => ['required', 'string', 'max:255'],
         ];
     }

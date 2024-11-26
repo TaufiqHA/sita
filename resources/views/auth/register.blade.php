@@ -16,6 +16,13 @@
             <x-input-error :messages="$errors->get('nim')" class="mt-2" />
         </div>
 
+        <!-- SKS -->
+        <div>
+            <x-input-label for="sks" :value="__('SKS')" />
+            <x-text-input id="sks" class="block mt-1 w-full" type="text" name="sks" :value="old('sks')" required autofocus autocomplete="sks" />
+            <x-input-error :messages="$errors->get('sks')" class="mt-2" />
+        </div>
+
         <!-- Alamat -->
         <div>
             <x-input-label for="alamat" :value="__('Alamat')" />

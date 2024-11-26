@@ -54,6 +54,12 @@
         </div>
 
         <div>
+            <x-input-label for="sks" :value="__('SKS')" />
+            <x-text-input id="sks" name="sks" type="text" class="mt-1 block w-full" :value="old('sks', $user->sks)" required autofocus autocomplete="name" />
+            <x-input-error class="mt-2" :messages="$errors->get('sks')" />
+        </div>
+
+        <div>
             <x-input-label for="alamat" :value="__('Alamat')" />
             <x-text-input id="alamat" name="alamat" type="text" class="mt-1 block w-full" :value="old('alamat', $user->alamat)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('alamat')" />

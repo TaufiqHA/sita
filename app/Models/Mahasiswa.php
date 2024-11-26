@@ -9,7 +9,7 @@ class Mahasiswa extends Authenticatable
 {
     use Notifiable;
     protected $fillable = [
-        'nama', 'email', 'nim', 'alamat', 'password', // Kolom-kolom di tabel mahasiswa
+        'nama', 'email', 'nim', 'alamat', 'sks', 'password', // Kolom-kolom di tabel mahasiswa
     ];
 
     protected $hidden = [

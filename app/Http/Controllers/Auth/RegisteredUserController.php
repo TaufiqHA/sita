@@ -35,6 +35,7 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.Mahasiswa::class],
             'nim' => ['string', 'max:255'],
             'alamat' => ['string', 'max:255'],
+            'sks' => ['required', 'string', 'max:255'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
@@ -43,6 +44,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'nim' => $request->nim,
             'alamat' => $request->alamat,
+            'sks' => $request->alamat,
             'password' => Hash::make($request->password),
         ]);
 
