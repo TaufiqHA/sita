@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Mahasiswa;
 use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ProfileUpdateRequest extends FormRequest
 {
@@ -16,15 +17,17 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
+            'nama' => ['required', 'string', 'max:255'],
             'email' => [
                 'required',
                 'string',
                 'lowercase',
                 'email',
                 'max:255',
-                Rule::unique(User::class)->ignore($this->user()->id),
+                Rule::unique(Mahasiswa::class)->ignore($this->user()->id),
             ],
+            'nim' => ['required', 'string', 'max:255'],
+            'alamat' => ['required', 'string', 'max:255'],
         ];
     }
 }

@@ -18,8 +18,8 @@
         @method('patch')
 
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+            <x-input-label for="nama" :value="__('Nama')" />
+            <x-text-input id="nama" name="nama" type="text" class="mt-1 block w-full" :value="old('nama', $user->nama)" required autofocus autocomplete="name" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
@@ -45,6 +45,18 @@
                     @endif
                 </div>
             @endif
+        </div>
+
+        <div>
+            <x-input-label for="nim" :value="__('NIM')" />
+            <x-text-input id="nim" name="nim" type="text" class="mt-1 block w-full" :value="old('nim', $user->nim)" required autofocus autocomplete="name" />
+            <x-input-error class="mt-2" :messages="$errors->get('nim')" />
+        </div>
+
+        <div>
+            <x-input-label for="alamat" :value="__('Alamat')" />
+            <x-text-input id="alamat" name="alamat" type="text" class="mt-1 block w-full" :value="old('alamat', $user->alamat)" required autofocus autocomplete="name" />
+            <x-input-error class="mt-2" :messages="$errors->get('alamat')" />
         </div>
 
         <div class="flex items-center gap-4">
