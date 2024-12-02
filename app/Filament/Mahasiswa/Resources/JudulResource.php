@@ -50,7 +50,8 @@ class JudulResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('judul')
-                    ->searchable(),
+                    ->searchable()
+                    ->limit(70),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
                     ->color(fn (string $state): string => match ($state) {
@@ -94,5 +95,10 @@ class JudulResource extends Resource
             'create' => Pages\CreateJudul::route('/create'),
             'edit' => Pages\EditJudul::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('mahasiswa_id', Auth::user()->id);
     }
 }
