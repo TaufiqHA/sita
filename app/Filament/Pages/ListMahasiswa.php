@@ -29,7 +29,9 @@ class ListMahasiswa extends Page implements HasTable
     public function table(Table $table): Table
     {
         return $table
-            ->query(Mahasiswa::query()->has('judul'))
+            ->query(Mahasiswa::query()->whereHas('judul', function($query) {
+                $query->where('status', 'diajukan');
+            }))
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
