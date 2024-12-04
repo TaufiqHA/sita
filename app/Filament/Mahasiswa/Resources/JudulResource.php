@@ -10,9 +10,7 @@ use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Mahasiswa\Resources\JudulResource\Pages;
-use App\Filament\Mahasiswa\Resources\JudulResource\RelationManagers;
 
 class JudulResource extends Resource
 {
