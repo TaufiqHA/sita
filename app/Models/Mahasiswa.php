@@ -27,15 +27,4 @@ class Mahasiswa extends User
     public function pembimbing(): HasOne {
         return $this->hasOne(Pembimbing::class);
     }
-
-    public function dospem1()
-    {
-        return $this->belongsTo(Dosen::class, 'dospem1_id');
-    }
-
-    public function dospem2()
-    {
-        return $this->belongsTo(Dosen::class, 'dospem2_id');
-    }
-
 }

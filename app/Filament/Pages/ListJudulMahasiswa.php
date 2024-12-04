@@ -8,6 +8,7 @@ use Filament\Pages\Page;
 use App\Models\Mahasiswa;
 use App\Models\Pembimbing;
 use Filament\Tables\Table;
+use Illuminate\Http\Request;
 use Filament\Forms\Components\Select;
 use Filament\Support\Exceptions\Halt;
 use Filament\Forms\Components\Section;
@@ -32,8 +33,8 @@ class ListJudulMahasiswa extends Page implements HasTable
 
     public $mahasiswa;
 
-    public function mount($record) {
-        $this->mahasiswa = Mahasiswa::where('id', $record)->first();
+    public function mount(Request $record) {
+        $this->mahasiswa = Mahasiswa::where('id', $record->record)->first();
     }
 
     public function table(Table $table): Table

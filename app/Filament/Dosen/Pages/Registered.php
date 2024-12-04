@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Filament\Dosen\Pages\Auth;
+namespace App\Filament\Dosen\Pages;
 
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
-use Filament\Pages\Auth\Register as AuthRegister;
-use Filament\Pages\Page;
+use Filament\Pages\Auth\Register as BaseRegister;
 
-class Register extends AuthRegister
+class Registered extends BaseRegister
 {
     public function form(Form $form): Form
     {

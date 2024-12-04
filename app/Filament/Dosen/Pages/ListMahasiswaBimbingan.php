@@ -8,6 +8,7 @@ use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
+use App\Filament\Dosen\Pages\DetailBimbingan;
 use Filament\Tables\Concerns\InteractsWithTable;
 
 class ListMahasiswaBimbingan extends Page implements HasTable
@@ -27,7 +28,9 @@ class ListMahasiswaBimbingan extends Page implements HasTable
 
     public function table(Table $table): Table {
         return $table
-            ->query(Mahasiswa::query()->whereNotNull('dospem1')->whereNotNull('dospem2'))
+            ->query(Mahasiswa::query()->whereHas('pembimbing', function ($query) {
+                $query->where('dospem1_id', Auth::user()->id)->orWhere('dospem2_id', Auth::user()->id);
+            }))
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
@@ -50,6 +53,9 @@ class ListMahasiswaBimbingan extends Page implements HasTable
                         'diterima' => 'success',
                         'ditolak' => 'danger',
                     }),
-            ]);
+            ])
+            ->recordUrl(
+                fn ($record) => DetailBimbingan::getUrl(['record' => $record->id]),
+            );
     }
 }

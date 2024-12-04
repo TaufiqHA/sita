@@ -2,7 +2,7 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Dosen\Pages\Auth\Register;
+use App\Filament\Dosen\Pages\Registered;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
@@ -33,7 +33,7 @@ class DosenPanelProvider extends PanelProvider
             ])
             ->brandName('SITA Matematika')
             ->login()
-            ->registration(Register::class)
+            ->registration(Registered::class)
             ->discoverResources(in: app_path('Filament/Dosen/Resources'), for: 'App\\Filament\\Dosen\\Resources')
             ->discoverPages(in: app_path('Filament/Dosen/Pages'), for: 'App\\Filament\\Dosen\\Pages')
             ->pages([

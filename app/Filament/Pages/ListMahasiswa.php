@@ -8,6 +8,7 @@ use Filament\Tables\Table;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Model;
+use App\Filament\Pages\ListJudulMahasiswa;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -51,7 +52,7 @@ class ListMahasiswa extends Page implements HasTable
                 ]),
             ])
             ->recordUrl(
-                fn (Model $record): string => route('judul.list', ['record' => $record->id]),
+                fn ($record) => ListJudulMahasiswa::getUrl(['record' => $record->id]),
             );
     }
 }
