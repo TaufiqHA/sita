@@ -9,13 +9,14 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Illuminate\Database\Eloquent\Model;
 use App\Filament\Pages\ListJudulMahasiswa;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Concerns\InteractsWithTable;
 
 class ListMahasiswa extends Page implements HasTable
 {
-    use InteractsWithTable;
+    use InteractsWithTable, HasPageShield;
     protected static ?string $title = 'List Mahasiswa';
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
