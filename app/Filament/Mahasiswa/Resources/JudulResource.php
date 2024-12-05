@@ -22,6 +22,16 @@ class JudulResource extends Resource
 
     protected static ?string $navigationLabel = 'Pengajuan Judul';
 
+    public static $coba = 1;
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        if (self::$coba === 1) {
+            return true;
+        }
+        return false;
+    }
+
     public static function form(Form $form): Form
     {
         return $form

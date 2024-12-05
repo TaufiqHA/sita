@@ -5,14 +5,15 @@ namespace App\Filament\Pages;
 use Filament\Pages\Page;
 use App\Models\Mahasiswa;
 use Filament\Tables\Table;
+use Filament\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
-use Illuminate\Database\Eloquent\Model;
 use App\Filament\Pages\ListJudulMahasiswa;
-use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Concerns\InteractsWithTable;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
+use Filament\Forms\Components\Toggle;
 
 class ListMahasiswa extends Page implements HasTable
 {
@@ -27,6 +28,18 @@ class ListMahasiswa extends Page implements HasTable
     protected static ?string $navigationLabel = 'Pengajuan Judul';
 
     protected static ?string $model = Mahasiswa::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('Pengaturan')
+                ->form([
+                    Toggle::make('authorId')
+                        ->label('Peganjuan Judul')
+                        ->required(),
+            ]),
+        ];
+    }
 
     public function table(Table $table): Table
     {
