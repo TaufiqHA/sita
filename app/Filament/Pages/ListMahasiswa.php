@@ -13,6 +13,7 @@ use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Concerns\InteractsWithTable;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
+use Filament\Actions\CreateAction;
 use Filament\Forms\Components\Toggle;
 
 class ListMahasiswa extends Page implements HasTable
