@@ -2,10 +2,14 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\Settings;
 use Filament\Pages\Page;
 use App\Models\Mahasiswa;
 use Filament\Tables\Table;
 use Filament\Actions\Action;
+use Filament\Facades\Filament;
+use Filament\Actions\CreateAction;
+use Filament\Forms\Components\Toggle;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use App\Filament\Pages\ListJudulMahasiswa;
@@ -13,8 +17,6 @@ use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Concerns\InteractsWithTable;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
-use Filament\Actions\CreateAction;
-use Filament\Forms\Components\Toggle;
 
 class ListMahasiswa extends Page implements HasTable
 {
@@ -35,10 +37,21 @@ class ListMahasiswa extends Page implements HasTable
         return [
             Action::make('Pengaturan')
                 ->form([
-                    Toggle::make('authorId')
+                    Toggle::make('pengajuan_judul')
                         ->label('Peganjuan Judul')
+                        ->default(function () {
+                            // Ambil nilai default dari database
+                            return Settings::where('key', 'pengajuan_judul')->value('value') === 'true';
+                        })
                         ->required(),
-            ]),
+            ])
+            ->action(function (array $data) {
+                // Simpan ke database
+                Settings::updateOrCreate(
+                    ['key' => 'pengajuan_judul'], // Cari berdasarkan key
+                    ['value' => $data['pengajuan_judul'] ? 'true' : 'false'] // Set value
+                );
+            }),
         ];
     }
 

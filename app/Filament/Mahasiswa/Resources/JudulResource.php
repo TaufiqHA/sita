@@ -5,6 +5,7 @@ namespace App\Filament\Mahasiswa\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Judul;
+use App\Models\Settings;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
@@ -22,11 +23,10 @@ class JudulResource extends Resource
 
     protected static ?string $navigationLabel = 'Pengajuan Judul';
 
-    public static $coba = 1;
-
     public static function shouldRegisterNavigation(): bool
     {
-        if (self::$coba === 1) {
+        $setting = Settings::where('key', 'pengajuan_judul')->value('value');
+        if($setting === 'true') {
             return true;
         }
         return false;
