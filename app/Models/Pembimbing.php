@@ -9,6 +9,10 @@ class Pembimbing extends Model
 {
     protected $guarded = ['id'];
 
+    public function judul(): BelongsTo {
+        return $this->belongsTo(Judul::class);
+    }
+
     public function dospem1(): BelongsTo {
         return $this->belongsTo(Dosen::class, 'dospem1_id');
     }

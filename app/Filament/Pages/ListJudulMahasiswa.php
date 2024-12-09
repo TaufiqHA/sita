@@ -9,6 +9,8 @@ use App\Models\Mahasiswa;
 use App\Models\Pembimbing;
 use Filament\Tables\Table;
 use Illuminate\Http\Request;
+use App\Mail\PengajuanJudulMail;
+use Illuminate\Support\Facades\Mail;
 use Filament\Forms\Components\Select;
 use Filament\Support\Exceptions\Halt;
 use Filament\Forms\Components\Section;
@@ -103,6 +105,16 @@ class ListJudulMahasiswa extends Page implements HasTable
                 ]);
 
                 Judul::where('mahasiswa_id', $this->mahasiswa->id)->where('status', 'diajukan')->update(['status' => 'ditolak']);
+
+                $pembimbing = Pembimbing::where('mahasiswa_id', $this->mahasiswa->id)->first();
+
+                $mailData = [
+                    'judul' => $pembimbing->judul->judul,
+                    'dospem1' => $pembimbing->dospem1->name,
+                    'dospem2' => $pembimbing->dospem2->name,
+                ];
+
+                Mail::to($this->mahasiswa->email)->send(new PengajuanJudulMail($mailData));
 
                 return redirect('/admin/list-mahasiswa');
             }

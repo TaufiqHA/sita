@@ -6,13 +6,14 @@ use Filament\Forms;
 use Filament\Tables;
 use App\Models\Judul;
 use Filament\Forms\Form;
+use App\Models\Mahasiswa;
+use App\Models\Pembimbing;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use App\Models\PengajuanProposal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Mahasiswa\Resources\PengajuanProposalResource\Pages;
-use App\Models\Pembimbing;
 
 class PengajuanProposalResource extends Resource
 {
@@ -26,9 +27,14 @@ class PengajuanProposalResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-        $status = auth('mahasiswa')->user()->pembimbing;
-        if($status->status_dospem1 && $status->status_dospem2 === 'diterima') {
-            return true;
+        $mahasiswa = Mahasiswa::where('id', auth('mahasiswa')->user()->id)->first();
+        if($mahasiswa->doesntHave('pembimbing')) {
+            return false;
+        } else {
+            $status = auth(guard: 'mahasiswa')->user()->pembimbing;
+            if($status->status_dospem1 && $status->status_dospem2 === 'diterima') {
+                return true;
+            }
         }
         return false;
     }

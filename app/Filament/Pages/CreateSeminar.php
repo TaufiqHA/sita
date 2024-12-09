@@ -74,17 +74,17 @@ class CreateSeminar extends Page implements HasForms
         try {
             $data = $this->form->getState();
 
-            // Seminar::insert([
-            //     'proposal_id' => $this->proposal->id,
-            //     'jenis_seminar' => $data['jenis_seminar'],
-            //     'waktu_seminar' => $data['waktu_seminar'],
-            //     'tanggal_seminar' => $data['tanggal_seminar'],
-            //     'ruangan' => $data['ruangan'],
-            // ]);
+            Seminar::insert([
+                'proposal_id' => $this->proposal->id,
+                'jenis_seminar' => $data['jenis_seminar'],
+                'waktu_seminar' => $data['waktu_seminar'],
+                'tanggal_seminar' => $data['tanggal_seminar'],
+                'ruangan' => $data['ruangan'],
+            ]);
 
-            // $this->proposal->update([
-            //     'status_pengajuan' => 'Disetujui'
-            // ]);
+            $this->proposal->update([
+                'status_pengajuan' => 'Disetujui'
+            ]);
 
             $mailData = [
                 'jenis' => $data['jenis_seminar'],
@@ -93,7 +93,7 @@ class CreateSeminar extends Page implements HasForms
                 'tempat' => $data['ruangan'],
             ];
 
-            Mail::to('rahma@gmail.com')->send(new PengajuanProposalMail($mailData));
+            Mail::to($this->proposal->mahasiswa->email)->send(new PengajuanProposalMail($mailData));
 
             return redirect('/admin/seminar-proposal');
         } catch (Halt $exception) {
