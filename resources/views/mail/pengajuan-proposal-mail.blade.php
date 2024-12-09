@@ -31,6 +31,16 @@
         .body p {
             margin: 10px 0;
         }
+        .details {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .details p {
+            margin: 5px 0;
+        }
         .footer {
             text-align: center;
             padding: 15px;
@@ -55,20 +65,21 @@
 <body>
     <div class="email-container">
         <div class="header">
-            Judul Anda Telah Diterima!
+            Penerimaan Pengajuan Seminar {{ $mailData['jenis'] }}
         </div>
         <div class="body">
-            <p>Halo,</p>
-            <p>Kami ingin memberitahukan bahwa judul yang Anda ajukan telah diterima. Terima kasih atas kontribusi Anda.</p>
-            <p>Jika ada pertanyaan lebih lanjut, jangan ragu untuk menghubungi kami.</p>
+            <p>Dengan ini kami menginformasikan bahwa pengajuan seminar {{ $mailData['jenis'] }} Anda telah diterima. Berikut adalah detail seminar Anda:</p>
+            <div class="details">
+                <p><strong>Tempat:</strong> {{ $mailData['tempat'] }} </p>
+                <p><strong>Tanggal:</strong> {{ $mailData['tanggal'] }} </p>
+                <p><strong>Waktu:</strong> {{ $mailData['waktu'] }} </p>
+            </div>
+            <p>Harap hadir tepat waktu dan membawa dokumen yang diperlukan. Jika ada perubahan atau pertanyaan, jangan ragu untuk menghubungi kami.</p>
             <p>Salam hangat,</p>
-            <p><strong>Tim Kami</strong></p>
-            <p>
-                <a href="#" class="button">Kunjungi Situs</a>
-            </p>
+            <p><strong>Tim Seminar</strong></p>
         </div>
         <div class="footer">
-            &copy; 2024 Tim Kami. Semua Hak Dilindungi.
+            &copy; 2024 Tim Seminar. Semua Hak Dilindungi.
         </div>
     </div>
 </body>

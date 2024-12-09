@@ -26,7 +26,7 @@ class PengajuanProposalResource extends Resource
 
     public static function shouldRegisterNavigation(): bool
     {
-        $status = Pembimbing::where('mahasiswa_id', Auth::user()->id)->first();
+        $status = auth('mahasiswa')->user()->pembimbing;
         if($status->status_dospem1 && $status->status_dospem2 === 'diterima') {
             return true;
         }
