@@ -2,13 +2,14 @@
 
 namespace App\Filament\Pages;
 
-use App\Models\Judul;
-use App\Models\PengajuanProposal;
 use App\Models\Seminar;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Filament\Actions\Action;
 use Illuminate\Http\Request;
+use App\Models\PengajuanProposal;
+use App\Mail\PengajuanProposalMail;
+use Illuminate\Support\Facades\Mail;
 use Filament\Forms\Components\Select;
 use Filament\Support\Exceptions\Halt;
 use Filament\Forms\Contracts\HasForms;
@@ -84,6 +85,8 @@ class CreateSeminar extends Page implements HasForms
             $this->proposal->update([
                 'status_pengajuan' => 'Disetujui'
             ]);
+
+            Mail::to('rahma@gmail.com')->send(new PengajuanProposalMail());
 
             return redirect('/admin/seminar-proposal');
         } catch (Halt $exception) {

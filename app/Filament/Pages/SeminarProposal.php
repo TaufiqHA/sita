@@ -5,13 +5,14 @@ namespace App\Filament\Pages;
 use Filament\Pages\Page;
 use Filament\Tables\Table;
 use App\Models\PengajuanProposal;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Concerns\InteractsWithTable;
 
 class SeminarProposal extends Page implements HasTable
 {
-    use InteractsWithTable;
+    use InteractsWithTable, HasPageShield;
     protected static ?string $navigationIcon = 'heroicon-o-presentation-chart-bar';
 
     protected static string $view = 'filament.pages.seminar-proposal';

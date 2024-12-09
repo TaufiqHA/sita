@@ -58,6 +58,8 @@ class MahasiswaPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->spa()
+            ->sidebarFullyCollapsibleOnDesktop()
             ->authMiddleware([
                 Authenticate::class,
             ])

@@ -6,6 +6,7 @@ use App\Models\Judul;
 use Filament\Pages\Page;
 use Filament\Tables\Table;
 use App\Filament\Exports\JudulExporter;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Actions\ExportAction;
@@ -13,7 +14,7 @@ use Filament\Tables\Concerns\InteractsWithTable;
 
 class JudulDiterima extends Page implements HasTable
 {
-    use InteractsWithTable;
+    use InteractsWithTable, HasPageShield;
     protected static ?string $navigationIcon = 'heroicon-o-document-check';
 
     protected static string $view = 'filament.pages.judul-diterima';

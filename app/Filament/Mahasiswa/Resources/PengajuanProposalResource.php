@@ -11,9 +11,8 @@ use Filament\Resources\Resource;
 use App\Models\PengajuanProposal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Mahasiswa\Resources\PengajuanProposalResource\Pages;
-use App\Filament\Mahasiswa\Resources\PengajuanProposalResource\RelationManagers;
+use App\Models\Pembimbing;
 
 class PengajuanProposalResource extends Resource
 {
@@ -24,6 +23,15 @@ class PengajuanProposalResource extends Resource
     protected static ?string $navigationGroup = 'Management Seminar';
 
     protected static ?string $navigationLabel = 'Pengajuan Seminar Proposal';
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        $status = Pembimbing::where('mahasiswa_id', Auth::user()->id)->first();
+        if($status->status_dospem1 && $status->status_dospem2 === 'diterima') {
+            return true;
+        }
+        return false;
+    }
 
     public static function form(Form $form): Form
     {
@@ -86,5 +94,10 @@ class PengajuanProposalResource extends Resource
             'create' => Pages\CreatePengajuanProposal::route('/create'),
             'edit' => Pages\EditPengajuanProposal::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('mahasiswa_id', Auth::user()->id);
     }
 }

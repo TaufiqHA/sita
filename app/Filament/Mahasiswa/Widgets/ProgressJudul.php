@@ -4,9 +4,11 @@ namespace App\Filament\Mahasiswa\Widgets;
 
 use Filament\Tables;
 use App\Models\Pembimbing;
+use Filament\Tables\Columns\Layout\Stack;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
+use Filament\Tables\Columns\Layout\Split;
 use Filament\Widgets\TableWidget as BaseWidget;
 
 class ProgressJudul extends BaseWidget
@@ -16,22 +18,31 @@ class ProgressJudul extends BaseWidget
         return $table
             ->query(Pembimbing::where('mahasiswa_id', Auth::user()->id))
             ->columns([
-                TextColumn::make('status_dospem1')
-                    ->label('Status Pembimbing 1')
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'bimbingan' => 'warning',
-                        'diterima' => 'success',
-                        'ditolak' => 'danger',
-                    }),
-                TextColumn::make('status_dospem2')
-                    ->label('Status Pembimbing 2')
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'bimbingan' => 'warning',
-                        'diterima' => 'success',
-                        'ditolak' => 'danger',
-                    }),
+                Split::make([
+                    Stack::make([
+                        TextColumn::make('dospem1.name'),
+                        TextColumn::make('status_dospem1')
+                            ->label('Status Pembimbing 1')
+                            ->badge()
+                            ->color(fn (string $state): string => match ($state) {
+                                'bimbingan' => 'warning',
+                                'diterima' => 'success',
+                                'ditolak' => 'danger',
+                            }),
+                        ]),
+                    Stack::make([
+                        TextColumn::make('dospem2.name'),
+                        TextColumn::make('status_dospem2')
+                            ->label('Status Pembimbing 2')
+                            ->badge()
+                            ->color(fn (string $state): string => match ($state) {
+                                'bimbingan' => 'warning',
+                                'diterima' => 'success',
+                                'ditolak' => 'danger',
+                            }),
+                        ]),
+                    ]),
+                
             ])
             ->paginated(false);
     }

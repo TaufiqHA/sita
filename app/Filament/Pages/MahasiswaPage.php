@@ -15,6 +15,9 @@ use Filament\Tables\Columns\TextColumn;
 class MahasiswaPage extends Page implements HasTable
 {
     use HasPageShield, InteractsWithTable;
+
+    protected static ?string $title = 'Mahasiswa';
+
     protected static ?string $navigationIcon = 'heroicon-o-academic-cap';
 
     protected static string $view = 'filament.pages.mahasiswa-page';
