@@ -3,12 +3,13 @@
 namespace App\Filament\Mahasiswa\Widgets;
 
 use Filament\Tables;
+use App\Models\Mahasiswa;
 use App\Models\Pembimbing;
-use Filament\Tables\Columns\Layout\Stack;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Support\Facades\Auth;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\Layout\Split;
+use Filament\Tables\Columns\Layout\Stack;
 use Filament\Widgets\TableWidget as BaseWidget;
 
 class ProgressJudul extends BaseWidget
@@ -51,4 +52,15 @@ class ProgressJudul extends BaseWidget
     {
         return 2;
     }
+
+    public static function canView(): bool
+    {
+        $mahasiswa = Mahasiswa::where('id', auth('mahasiswa')->user()->id)->first()->pembimbing;
+        if($mahasiswa !== null) {
+            return true;
+        }
+        
+        return false;
+    }
+
 }

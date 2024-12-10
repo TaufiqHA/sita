@@ -45,7 +45,7 @@ class MahasiswaPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Mahasiswa/Widgets'), for: 'App\\Filament\\Mahasiswa\\Widgets')
             ->widgets([
-                
+                //
             ])
             ->middleware([
                 EncryptCookies::class,
