@@ -9,6 +9,10 @@ class Pembimbing extends Model
 {
     protected $guarded = ['id'];
 
+    public function mahasiswa(): BelongsTo {
+        return $this->belongsTo(Mahasiswa::class);
+    }
+
     public function judul(): BelongsTo {
         return $this->belongsTo(Judul::class);
     }

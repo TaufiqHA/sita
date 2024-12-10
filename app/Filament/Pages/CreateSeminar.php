@@ -2,13 +2,16 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\Judul;
 use App\Models\Seminar;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Filament\Actions\Action;
 use Illuminate\Http\Request;
+use App\Models\PembimbingHasil;
 use App\Models\PengajuanProposal;
 use App\Mail\PengajuanProposalMail;
+use App\Models\Pembimbing;
 use Illuminate\Support\Facades\Mail;
 use Filament\Forms\Components\Select;
 use Filament\Support\Exceptions\Halt;
@@ -94,6 +97,15 @@ class CreateSeminar extends Page implements HasForms
             ];
 
             Mail::to($this->proposal->mahasiswa->email)->send(new PengajuanProposalMail($mailData));
+
+            $pembimbing = Pembimbing::where('mahasiswa_id', $this->proposal->mahasiswa_id)->first();
+
+            PembimbingHasil::insert([
+                'mahasiswa_id' => $pembimbing->mahasiswa_id,
+                'judul_id' => $pembimbing->judul_id,
+                'dospem1_id' => $pembimbing->dospem1->id,
+                'dospem2_id' => $pembimbing->dospem2->id,
+            ]);
 
             return redirect('/admin/seminar-proposal');
         } catch (Halt $exception) {

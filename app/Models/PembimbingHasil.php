@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SeminarHasil extends Model
+class PembimbingHasil extends Model
 {
-    //
+    protected $guarded = ['id'];
 }
