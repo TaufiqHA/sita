@@ -45,7 +45,8 @@ class JudulResource extends Resource
                     ->required()
                     ->downloadable()
                     ->previewable(false)
-                    ->directory('outline'),
+                    ->directory('outline')
+                    ->acceptedFileTypes(['application/pdf']),
                 Forms\Components\Hidden::make('status')
                     ->default('diajukan')
                     ->required(),

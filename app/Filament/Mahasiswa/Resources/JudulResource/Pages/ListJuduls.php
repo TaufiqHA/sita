@@ -11,6 +11,17 @@ class ListJuduls extends ListRecords
 {
     protected static string $resource = JudulResource::class;
 
+    public function mount(): void
+    {
+        $this->authorizeAccess();
+
+        $this->loadDefaultActiveTab();
+        
+        if (Auth::user()->sks < 141) {
+            abort(403, 'Jumlah SKS Anda belum mencukupi.');
+        }
+    }
+
     public function getTitle(): string
     {
         return 'Judul';

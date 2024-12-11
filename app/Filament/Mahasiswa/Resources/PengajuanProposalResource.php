@@ -68,7 +68,12 @@ class PengajuanProposalResource extends Resource
                 Tables\Columns\TextColumn::make('tanggal_pengajuan')
                     ->date()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('status_pengajuan'),
+                Tables\Columns\TextColumn::make('status_pengajuan')
+                    ->badge()
+                    ->color(fn ($state) => match ($state) {
+                        'Pending' => 'warning',
+                        'Disetujui' => 'success'
+                    }),
             ])
             ->paginated(false)
             ->filters([

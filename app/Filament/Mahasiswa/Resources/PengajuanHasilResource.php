@@ -91,6 +91,7 @@ class PengajuanHasilResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('tanggal_pengajuan')
+                    ->date()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status_pengajuan')
                     ->badge()
@@ -100,6 +101,7 @@ class PengajuanHasilResource extends Resource
                     })
                     ->sortable(),
             ])
+            ->paginated(false)
             ->filters([
                 //
             ])
@@ -127,5 +129,10 @@ class PengajuanHasilResource extends Resource
             'create' => Pages\CreatePengajuanHasil::route('/create'),
             'edit' => Pages\EditPengajuanHasil::route('/{record}/edit'),
         ];
+    }
+
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->where('mahasiswa_id', Auth::user()->id);
     }
 }

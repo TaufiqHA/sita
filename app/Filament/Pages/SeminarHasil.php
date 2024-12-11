@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Pages\Page;
 use Filament\Tables\Table;
 use App\Models\PengajuanHasil;
@@ -14,7 +15,7 @@ use Filament\Tables\Actions\EditAction;
 
 class SeminarHasil extends Page implements HasTable
 {
-    use InteractsWithTable;
+    use InteractsWithTable, HasPageShield;
 
     protected static ?string $navigationIcon = 'heroicon-o-presentation-chart-bar';
 
