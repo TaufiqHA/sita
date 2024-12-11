@@ -4,6 +4,7 @@ namespace App\Filament\Pages;
 
 use Filament\Forms\Form;
 use Filament\Pages\Page;
+use Filament\Actions\Action;
 use Illuminate\Http\Request;
 use App\Models\PengajuanHasil;
 use Filament\Forms\Contracts\HasForms;
@@ -75,5 +76,19 @@ class ViewPengajuanSeminarHasil extends Page implements HasForms
                     ->minHeight('100svh'),
             ])
             ->statePath('data');
+    }
+
+    protected function getFormActions(): array
+    {
+        return [
+            Action::make('cancel')
+                ->label(__('filament-panels::resources/pages/edit-record.form.actions.cancel.label'))
+                ->submit('save'),
+        ];
+    }
+
+    public function save()
+    {
+        return redirect(SeminarHasil::getUrl());
     }
 }

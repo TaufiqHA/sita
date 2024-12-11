@@ -2,53 +2,44 @@
 
 namespace App\Filament\Pages;
 
-use App\Models\Seminar;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Filament\Actions\Action;
 use Illuminate\Http\Request;
-use App\Models\PembimbingHasil;
-use App\Models\PengajuanProposal;
-use App\Mail\PengajuanProposalMail;
-use App\Models\Pembimbing;
+use App\Models\PengajuanHasil;
+use App\Mail\PengajuanHasilMail;
+use App\Filament\Pages\SeminarHasil;
 use Illuminate\Support\Facades\Mail;
-use Filament\Forms\Components\Select;
 use Filament\Support\Exceptions\Halt;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Concerns\InteractsWithForms;
+use App\Models\SeminarHasil as SeminarHasilModel;
 
-class CreateSeminar extends Page implements HasForms
+class CreateSeminarHasil extends Page implements HasForms
 {
     use InteractsWithForms;
-
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static string $view = 'filament.pages.create-seminar';
+    protected static string $view = 'filament.pages.create-seminar-hasil';
 
     protected static bool $shouldRegisterNavigation = false;
 
+    public $hasil;
+
     public ?array $data = [];
 
-    public $proposal;
-
-    public function mount(Request $record) {
-        $this->proposal = PengajuanProposal::where('id', $record->record)->first();
+    public function mount(Request $record): void
+    {
+        $this->hasil = PengajuanHasil::where('id', $record->record)->first();
     }
 
     public function form(Form $form): Form
     {
         return $form
             ->schema([
-                Select::make('jenis_seminar')
-                    ->label('Jenis Seminar')
-                    ->options([
-                        'Proposal' => 'Proposal',
-                        'Hasil' => 'Hasil',
-                    ])
-                    ->required(),
                 DatePicker::make('tanggal_seminar')
                     ->label('Tanggal Seminar')
                     ->required(),
@@ -58,9 +49,8 @@ class CreateSeminar extends Page implements HasForms
                 TextInput::make('ruangan')
                     ->label('Ruangan')
                     ->required(),
-
-                ])
-                ->statePath('data');
+            ])
+            ->statePath('data');
     }
 
     protected function getFormActions(): array
@@ -76,37 +66,36 @@ class CreateSeminar extends Page implements HasForms
         try {
             $data = $this->form->getState();
 
-            Seminar::insert([
-                'proposal_id' => $this->proposal->id,
-                'jenis_seminar' => $data['jenis_seminar'],
+            SeminarHasilModel::create([
+                'hasil_id' => $this->hasil->id,
                 'waktu_seminar' => $data['waktu_seminar'],
                 'tanggal_seminar' => $data['tanggal_seminar'],
                 'ruangan' => $data['ruangan'],
             ]);
 
-            $this->proposal->update([
+            $this->hasil->update([
                 'status_pengajuan' => 'Disetujui'
             ]);
 
             $mailData = [
-                'jenis' => $data['jenis_seminar'],
+                'jenis' => 'Hasil',
                 'tanggal' => $data['tanggal_seminar'],
                 'waktu' => $data['waktu_seminar'],
                 'tempat' => $data['ruangan'],
             ];
 
-            Mail::to($this->proposal->mahasiswa->email)->send(new PengajuanProposalMail($mailData));
+            Mail::to($this->hasil->mahasiswa->email)->send(new PengajuanHasilMail($mailData));
 
-            $pembimbing = Pembimbing::where('mahasiswa_id', $this->proposal->mahasiswa_id)->first();
+            // $pembimbing = Pembimbing::where('mahasiswa_id', $this->proposal->mahasiswa_id)->first();
 
-            PembimbingHasil::insert([
-                'mahasiswa_id' => $pembimbing->mahasiswa_id,
-                'judul_id' => $pembimbing->judul_id,
-                'dospem1_id' => $pembimbing->dospem1->id,
-                'dospem2_id' => $pembimbing->dospem2->id,
-            ]);
+            // PembimbingHasil::insert([
+            //     'mahasiswa_id' => $pembimbing->mahasiswa_id,
+            //     'judul_id' => $pembimbing->judul_id,
+            //     'dospem1_id' => $pembimbing->dospem1->id,
+            //     'dospem2_id' => $pembimbing->dospem2->id,
+            // ]);
 
-            return redirect('/admin/seminar-proposal');
+            return redirect(SeminarHasil::getUrl());
         } catch (Halt $exception) {
             return;
         }
