@@ -4,21 +4,23 @@ namespace App\Filament\Mahasiswa\Widgets;
 
 use Filament\Tables;
 use App\Models\Mahasiswa;
-use App\Models\Pembimbing;
 use Filament\Tables\Table;
+use App\Models\PembimbingHasil;
 use Illuminate\Support\Facades\Auth;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\Layout\Split;
 use Filament\Tables\Columns\Layout\Stack;
 use Filament\Widgets\TableWidget as BaseWidget;
 
-class ProgressJudul extends BaseWidget
+class ProgressHasil extends BaseWidget
 {
     public function table(Table $table): Table
     {
         return $table
-            ->heading('Proges Proposal')
-            ->query(Pembimbing::where('mahasiswa_id', Auth::user()->id))
+            ->heading('Progres Hasil')
+            ->query(
+                PembimbingHasil::query()->where('mahasiswa_id', Auth::user()->id)
+            )
             ->columns([
                 Split::make([
                     Stack::make([
@@ -44,24 +46,17 @@ class ProgressJudul extends BaseWidget
                             }),
                         ]),
                     ]),
-                
             ])
             ->paginated(false);
     }
 
-    public function getColumnSpan(): int
-    {
-        return 1;
-    }
-
     public static function canView(): bool
     {
-        $mahasiswa = Mahasiswa::where('id', auth('mahasiswa')->user()->id)->first()->pembimbing;
+        $mahasiswa = Mahasiswa::where('id', auth('mahasiswa')->user()->id)->first()->pembimbingHasil;
         if($mahasiswa !== null) {
             return true;
         }
         
         return false;
     }
-
 }

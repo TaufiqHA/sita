@@ -22,6 +22,7 @@ use Filament\Forms\Components\FileUpload;
 use Filament\Tables\Actions\BulkActionGroup;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Concerns\InteractsWithTable;
+use Joaopaulolndev\FilamentPdfViewer\Forms\Components\PdfViewerField;
 
 class ListJudulMahasiswa extends Page implements HasTable
 {
@@ -65,6 +66,9 @@ class ListJudulMahasiswa extends Page implements HasTable
                             ->downloadable()
                             ->previewable(false)
                             ->deletable(false),
+                        PdfViewerField::make('outline')
+                            ->label(false)
+                            ->minHeight('70svh'),
                         Select::make('status')
                             ->options([
                                 'diterima' => 'Diterima',

@@ -42,13 +42,6 @@ class CreateSeminar extends Page implements HasForms
     {
         return $form
             ->schema([
-                Select::make('jenis_seminar')
-                    ->label('Jenis Seminar')
-                    ->options([
-                        'Proposal' => 'Proposal',
-                        'Hasil' => 'Hasil',
-                    ])
-                    ->required(),
                 DatePicker::make('tanggal_seminar')
                     ->label('Tanggal Seminar')
                     ->required(),
@@ -78,7 +71,7 @@ class CreateSeminar extends Page implements HasForms
 
             Seminar::insert([
                 'proposal_id' => $this->proposal->id,
-                'jenis_seminar' => $data['jenis_seminar'],
+                'jenis_seminar' => 'Proposal',
                 'waktu_seminar' => $data['waktu_seminar'],
                 'tanggal_seminar' => $data['tanggal_seminar'],
                 'ruangan' => $data['ruangan'],
@@ -89,7 +82,7 @@ class CreateSeminar extends Page implements HasForms
             ]);
 
             $mailData = [
-                'jenis' => $data['jenis_seminar'],
+                'jenis' => 'Proposal',
                 'tanggal' => $data['tanggal_seminar'],
                 'waktu' => $data['waktu_seminar'],
                 'tempat' => $data['ruangan'],
