@@ -34,4 +34,8 @@ class Mahasiswa extends User
     public function proposal(): HasOne {
         return $this->hasOne(PengajuanProposal::class);
     }
+
+    public function hasil(): HasOne {
+        return $this->hasOne(PengajuanHasil::class);
+    }
 }
