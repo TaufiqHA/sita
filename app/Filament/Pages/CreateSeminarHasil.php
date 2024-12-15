@@ -4,9 +4,11 @@ namespace App\Filament\Pages;
 
 use Filament\Forms\Form;
 use Filament\Pages\Page;
+use App\Models\Pembimbing;
 use Filament\Actions\Action;
 use Illuminate\Http\Request;
 use App\Models\PengajuanHasil;
+use App\Models\PembimbingUjian;
 use App\Mail\PengajuanHasilMail;
 use App\Filament\Pages\SeminarHasil;
 use Illuminate\Support\Facades\Mail;
@@ -86,14 +88,14 @@ class CreateSeminarHasil extends Page implements HasForms
 
             Mail::to($this->hasil->mahasiswa->email)->send(new PengajuanHasilMail($mailData));
 
-            // $pembimbing = Pembimbing::where('mahasiswa_id', $this->proposal->mahasiswa_id)->first();
+            $pembimbing = Pembimbing::where('mahasiswa_id', $this->hasil->mahasiswa_id)->first();
 
-            // PembimbingHasil::insert([
-            //     'mahasiswa_id' => $pembimbing->mahasiswa_id,
-            //     'judul_id' => $pembimbing->judul_id,
-            //     'dospem1_id' => $pembimbing->dospem1->id,
-            //     'dospem2_id' => $pembimbing->dospem2->id,
-            // ]);
+            PembimbingUjian::insert([
+                'mahasiswa_id' => $pembimbing->mahasiswa_id,
+                'judul_id' => $pembimbing->judul_id,
+                'dospem1_id' => $pembimbing->dospem1->id,
+                'dospem2_id' => $pembimbing->dospem2->id,
+            ]);
 
             return redirect(SeminarHasil::getUrl());
         } catch (Halt $exception) {

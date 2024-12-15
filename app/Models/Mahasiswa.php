@@ -31,11 +31,20 @@ class Mahasiswa extends User
         return $this->hasOne(PembimbingHasil::class);
     }
 
+    public function pembimbingUjian(): HasOne {
+        return $this->hasOne(PembimbingUjian::class);
+    }
+
     public function proposal(): HasOne {
         return $this->hasOne(PengajuanProposal::class);
     }
 
     public function hasil(): HasOne {
         return $this->hasOne(PengajuanHasil::class);
+    }
+
+    public function ujian()
+    {
+        return $this->hasOne(Ujian::class);
     }
 }

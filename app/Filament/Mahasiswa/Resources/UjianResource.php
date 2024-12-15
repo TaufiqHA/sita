@@ -7,6 +7,7 @@ use Filament\Forms;
 use Filament\Tables;
 use App\Models\ujian;
 use Filament\Forms\Form;
+use App\Models\Mahasiswa;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,19 @@ class UjianResource extends Resource
     protected static ?string $navigationGroup = 'Management Ujian';
 
     protected static ?string $navigationLabel = 'Pengajuan Ujian Munaqasya';
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        $mahasiswa = Mahasiswa::where('id', auth('mahasiswa')->user()->id)->first()->pembimbingUjian;
+        if($mahasiswa !== null) {
+            $status = auth(guard: 'mahasiswa')->user()->pembimbingUjian;
+            if($status->status_dospem1 === 'diterima' && $status->status_dospem2 === 'diterima') {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public static function form(Form $form): Form
     {
@@ -102,26 +116,17 @@ class UjianResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('mahasiswa.name')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('tanggal_pengajuan')
+                    ->date()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('status_pengajuan')
                     ->badge()
                     ->color(fn ($state) => match ($state) {
                         'Pending' => 'warning',
                         'Diterima' => 'success'
                     }),
-                Tables\Columns\TextColumn::make('tanggal_pengajuan')
-                    ->date()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->paginated(false)
             ->filters([
                 //
             ])

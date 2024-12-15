@@ -2,6 +2,7 @@
 
 namespace App\Filament\Mahasiswa\Resources;
 
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Judul;
@@ -53,7 +54,8 @@ class PengajuanProposalResource extends Resource
                     ->directory('proposal'),
                 Forms\Components\FileUpload::make('hasil_turnitin')
                     ->directory('proposal'),
-                Forms\Components\DatePicker::make('tanggal_pengajuan'),
+                Forms\Components\hidden::make('tanggal_pengajuan')
+                    ->default(Carbon::now()),
                 Forms\Components\Hidden::make('status_pengajuan')
                     ->required()
                     ->default('Pending'),

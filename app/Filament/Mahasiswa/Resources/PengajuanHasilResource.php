@@ -2,6 +2,7 @@
 
 namespace App\Filament\Mahasiswa\Resources;
 
+use Carbon\Carbon;
 use Filament\Forms;
 use Filament\Tables;
 use App\Models\Judul;
@@ -81,7 +82,8 @@ class PengajuanHasilResource extends Resource
                     ->required()
                     ->directory('hasil')
                     ->acceptedFileTypes(['application/pdf']),
-                Forms\Components\DatePicker::make('tanggal_pengajuan'),
+                Forms\Components\Hidden::make('tanggal_pengajuan')
+                    ->default(Carbon::now()),
             ])
             ->columns(1);
     }
