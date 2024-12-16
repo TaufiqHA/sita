@@ -38,6 +38,7 @@ return new class extends Migration
             $table->string('lembar_hafalan');
             $table->enum('status_pengajuan', ['Pending', 'Diterima'])->default('Pending');
             $table->date('tanggal_pengajuan');
+            $table->boolean('verifikasi')->default(false);
             $table->timestamps();
         });
     }

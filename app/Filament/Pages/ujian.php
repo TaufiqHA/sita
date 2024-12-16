@@ -5,13 +5,12 @@ namespace App\Filament\Pages;
 use Filament\Pages\Page;
 use Filament\Tables\Table;
 use App\Models\ujian as ujianModel;
-use Filament\Tables\Actions\EditAction;
 use Filament\Tables\Actions\ViewAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
-use App\Filament\Pages\CreateSeminarHasil;
 use Filament\Tables\Contracts\HasTable;
+use App\Filament\Pages\ViewPengajuanUjian;
 use Filament\Tables\Concerns\InteractsWithTable;
-use App\Filament\Pages\ViewPengajuanSeminarHasil;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 
 class ujian extends Page implements HasTable
@@ -35,13 +34,15 @@ class ujian extends Page implements HasTable
             ->columns([
                 TextColumn::make('mahasiswa.name')
                     ->searchable(),
-                TextColumn::make('status_pengajuan')
+                TextColumn::make('status_pengajuan'),
+                IconColumn::make('verifikasi')
+                    ->boolean()
+            ])
+            ->actions([
+                ViewAction::make()
+                    ->url(fn ($record) => ViewPengajuanUjian::getUrl(['record' => $record->id])),
+                // EditAction::make()
+                //     ->url(fn ($record) => CreateSeminarHasil::getUrl(['record' => $record->id]))
             ]);
-            // ->actions([
-            //     ViewAction::make()
-            //         ->url(fn ($record) => ViewPengajuanSeminarHasil::getUrl(['record' => $record->id])),
-            //     EditAction::make()
-            //         ->url(fn ($record) => CreateSeminarHasil::getUrl(['record' => $record->id]))
-            // ]);
     }
 }

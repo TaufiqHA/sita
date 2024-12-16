@@ -12,4 +12,9 @@ class ujian extends Model
     {
         return $this->belongsTo(Mahasiswa::class);
     }
+
+    protected $casts = [
+        'verifikasi' => 'boolean',
+    ];
+
 }
