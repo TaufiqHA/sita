@@ -17,6 +17,7 @@ use Filament\Forms\Components\TimePicker;
 use App\Filament\Pages\ListPengajuanUjian;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Support\Exceptions\Halt;
+use Illuminate\Support\Facades\Log;
 
 class CreateUjian extends Page implements HasForms
 {
@@ -44,10 +45,6 @@ class CreateUjian extends Page implements HasForms
             ->schema([
                 Fieldset::make('Panitia')
                     ->schema([
-                        Hidden::make('mahasiswa_id')
-                            ->default($this->ujian->mahasiswa->id),
-                        Hidden::make('hasil_id')
-                            ->default($this->ujian->mahasiswa->hasil->id),
                         TextInput::make('ketua')
                             ->required(),
                         TextInput::make('sekretaris')
@@ -58,12 +55,6 @@ class CreateUjian extends Page implements HasForms
                         TextInput::make('munaqisy2')
                             ->label('Munaqisy 2')
                             ->required(),
-                        Hidden::make('dospem1_id')
-                            ->required()
-                            ->default($this->ujian->mahasiswa->pembimbing->dospem1->id),
-                        Hidden::make('dospem2_id')
-                            ->required()
-                            ->default($this->ujian->mahasiswa->pembimbing->dospem2->id),
                     ]),
                 Fieldset::make('Jadwal')
                     ->schema([
@@ -96,17 +87,22 @@ class CreateUjian extends Page implements HasForms
             $data = $this->form->getState();
 
             UjianMunaqasya::create([
-                'mahasiswa_id' => $data['mahasiswa_id'],
-                'hasil_id' => $data['hasil_id'],
+                'mahasiswa_id' => $this->ujian->mahasiswa->id,
+                'hasil_id' => $this->ujian->mahasiswa->hasil->id,
+                'ujian_id' => $this->ujian->id,
                 'ketua' => $data['ketua'],
                 'sekretaris' => $data['sekretaris'],
                 'munaqisy1' => $data['munaqisy1'],
                 'munaqisy2' => $data['munaqisy2'],
-                'dospem1_id' => $data['dospem1_id'],
-                'dospem2_id' => $data['dospem2_id'],
+                'dospem1_id' => $this->ujian->mahasiswa->pembimbing->dospem1->id,
+                'dospem2_id' => $this->ujian->mahasiswa->pembimbing->dospem2->id,
                 'tanggal_seminar' => $data['tanggal_seminar'],
                 'waktu_seminar' => $data['waktu_seminar'],
                 'ruangan' => $data['ruangan'],
+            ]);
+
+            $this->ujian->update([
+                'status_jadwal' => 'Terjadwal',
             ]);
     
             return redirect(ListPengajuanUjian::getUrl());

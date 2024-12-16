@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('ujians', function (Blueprint $table) {
-            $table->boolean('verifikasi')->default(false);
+            $table->enum('status_jadwal', ['Tidak Terjadwal', 'Terjadwal'])->default('Tidak Terjadwal');
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('ujians', function (Blueprint $table) {
-            $table->dropColumn('verifikasi');
+            $table->dropColumn('status_jadwal');
         });
     }
 };

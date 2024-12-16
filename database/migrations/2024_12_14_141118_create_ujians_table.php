@@ -39,6 +39,7 @@ return new class extends Migration
             $table->enum('status_pengajuan', ['Pending', 'Diterima'])->default('Pending');
             $table->date('tanggal_pengajuan');
             $table->boolean('verifikasi')->default(false);
+            $table->enum('status_jadwal', ['Tidak Terjadwal', 'Terjadwal'])->default('Tidak Terjadwal');
             $table->timestamps();
         });
     }

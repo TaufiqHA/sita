@@ -13,6 +13,11 @@ class ujian extends Model
         return $this->belongsTo(Mahasiswa::class);
     }
 
+    public function ujianMunaqasya()
+    {
+        return $this->hasOne(UjianMunaqasya::class);
+    }
+
     protected $casts = [
         'verifikasi' => 'boolean',
     ];

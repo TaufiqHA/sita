@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('mahasiswa_id')->constrained('mahasiswas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('hasil_id')->constrained('pengajuan_hasils')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('ujian_id')->constrained('ujians')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('ketua');
             $table->string('sekretaris');
             $table->string('munaqisy1');
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->date('tanggal_seminar');
             $table->time('waktu_seminar');
             $table->string('ruangan');
+            $table->boolean('published')->default(false);
             $table->timestamps();
         });
     }
