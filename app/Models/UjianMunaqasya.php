@@ -12,4 +12,8 @@ class UjianMunaqasya extends Model
     {
         return $this->belongsTo(Mahasiswa::class);
     }
+
+    protected $casts = [
+        'published' => 'boolean',
+    ];
 }

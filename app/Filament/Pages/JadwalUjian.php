@@ -6,6 +6,7 @@ use App\Models\UjianMunaqasya;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Pages\Page;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -14,6 +15,7 @@ use Filament\Tables\Table;
 class JadwalUjian extends Page implements HasTable
 {
     use InteractsWithTable, HasPageShield;
+
     protected static ?string $navigationIcon = 'heroicon-o-clock';
 
     protected static string $view = 'filament.pages.jadwal-ujian';
@@ -29,16 +31,20 @@ class JadwalUjian extends Page implements HasTable
         return $table
             ->query(UjianMunaqasya::query())
             ->columns([
-                TextColumn::make('mahasiswa.name'),
+                TextColumn::make('mahasiswa.name')
+                    ->searchable(),
                 TextColumn::make('tanggal_seminar')
                     ->label('Tanggal Ujian')
                     ->date(),
                 TextColumn::make('waktu_seminar')
                     ->label('Waktu Ujian')
                     ->time(),
+                IconColumn::make('published')
+                    ->boolean(),
             ])
             ->actions([
                 EditAction::make()
+                    ->url(fn ($record) => publish_jadwal::getUrl(['record' => $record->id])),
             ]);
     }
 }
