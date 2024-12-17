@@ -13,13 +13,7 @@ class ListPengajuanProposals extends ListRecords
 
     protected function getHeaderActions(): array
     {
-        if(optional(Auth::user()->proposal)->exists()) {
-            return [];
-        }
-        return [
-            Actions\CreateAction::make()
-                ->label('Ajukan'),
-        ];
+        return [];
     }
 
     public function getTitle(): string

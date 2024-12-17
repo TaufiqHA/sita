@@ -8,6 +8,7 @@ use Filament\Actions\Action;
 use Illuminate\Http\Request;
 use App\Models\PengajuanProposal;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Joaopaulolndev\FilamentPdfViewer\Forms\Components\PdfViewerField;
@@ -22,16 +23,26 @@ class ViewPengajuanSeminar extends Page implements HasForms
 
     protected static bool $shouldRegisterNavigation = false;
 
-    public ?array $data = [];
+    public ?array $syaratData = [];
+    public ?array $verifikasiData = [];
 
     public $proposal;
 
-    public function mount(Request $record) {
-        $this->proposal = PengajuanProposal::where('id', $record->record)->first();
-        $this->form->fill(PengajuanProposal::where('id', $record->record)->first()->attributesToArray());
+    protected function getForms(): array
+    {
+        return [
+            'syaratForm',
+            'verifikasiForm',
+        ];
     }
 
-    public function form(Form $form): Form
+    public function mount(Request $record) {
+        $this->proposal = PengajuanProposal::where('id', $record->record)->first();
+        $this->syaratForm->fill(PengajuanProposal::where('id', $record->record)->first()->attributesToArray());
+        $this->verifikasiForm->fill(PengajuanProposal::where('id', $record->record)->first()->attributesToArray());
+    }
+
+    public function syaratForm(Form $form): Form
     {
         return $form
             ->schema([
@@ -54,20 +65,33 @@ class ViewPengajuanSeminar extends Page implements HasForms
                     ->label(false)
                     ->minHeight('100svh'),
             ])
-            ->statePath('data');
+            ->statePath('syaratData');
+    }
+
+    public function verifikasiForm(Form $form): Form
+    {
+        return $form
+            ->schema([
+                Checkbox::make('verifikasi'),
+            ])
+            ->statePath('verifikasiData');
     }
 
     protected function getFormActions(): array
     {
         return [
             Action::make('cancel')
-                ->label(__('filament-panels::resources/pages/edit-record.form.actions.cancel.label'))
+                ->label(__('filament-panels::resources/pages/edit-record.form.actions.save.label'))
                 ->submit('save'),
         ];
     }
 
     public function save()
     {
-        return redirect('/admin/seminar-proposal');
+        $data = $this->verifikasiForm->getState();
+
+        PengajuanProposal::where('id', $this->proposal->id)->update($data);
+
+        return redirect(SeminarProposal::getUrl());
     }
 }

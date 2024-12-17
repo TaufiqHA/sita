@@ -13,11 +13,19 @@ return new class extends Migration
     {
         Schema::create('seminars', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('mahasiswa_id')->constrained('mahasiswas')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('proposal_id')->constrained('pengajuan_proposals')->cascadeOnDelete()->cascadeOnUpdate(); // Foreign key
             $table->enum('jenis_seminar', ['Proposal', 'Hasil']);
+            $table->string('ketua');
+            $table->string('sekretaris');
+            $table->string('penguji1');
+            $table->string('penguji2');
+            $table->foreignId('dospem1_id')->constrained('dosens')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('dospem2_id')->constrained('dosens')->cascadeOnDelete()->cascadeOnUpdate();
             $table->date('tanggal_seminar');
             $table->time('waktu_seminar');
             $table->string('ruangan');
+            $table->boolean('published')->default(false);
             $table->timestamps();
         });
     }

@@ -11,6 +11,7 @@ use Filament\Tables\Contracts\HasTable;
 use Filament\Tables\Concerns\InteractsWithTable;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Tables\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
 
 class SeminarProposal extends Page implements HasTable
 {
@@ -19,7 +20,11 @@ class SeminarProposal extends Page implements HasTable
 
     protected static string $view = 'filament.pages.seminar-proposal';
 
-    protected static ?string $navigationGroup = 'Management Seminar';
+    protected static ?string $title = 'Pengajuan Seminar Proposal';
+
+    protected static ?string $navigationGroup = 'Management Seminar Proposal';
+    
+    protected static ?string $navigationLabel = 'Pengajuan Seminar Proposal';
 
     public function table(Table $table): Table
     {
@@ -27,13 +32,16 @@ class SeminarProposal extends Page implements HasTable
             ->query(PengajuanProposal::query()->where('status_pengajuan', 'Pending'))
             ->columns([
                 TextColumn::make('mahasiswa.name'),
-                TextColumn::make('status_pengajuan'),
+                TextColumn::make('tanggal_pengajuan')
+                    ->date(),
+                IconColumn::make('verifikasi')
+                    ->boolean(),
             ])
             ->actions([
                 ViewAction::make()
                     ->url(fn ($record) => ViewPengajuanSeminar::getUrl(['record' => $record->id])),
-                EditAction::make()
-                    ->url(fn ($record) => CreateSeminar::getUrl(['record' => $record->id]))
+                // EditAction::make()
+                //     ->url(fn ($record) => CreateSeminar::getUrl(['record' => $record->id]))
             ]);
     }
 }

@@ -11,9 +11,11 @@ use App\Models\Mahasiswa;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use App\Models\PengajuanProposal;
+use Filament\Tables\Actions\Action;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Mahasiswa\Resources\PengajuanProposalResource\Pages;
+use App\Filament\Mahasiswa\Resources\PengajuanProposalResource\Pages\CreatePengajuanProposal;
 
 class PengajuanProposalResource extends Resource
 {
@@ -80,6 +82,15 @@ class PengajuanProposalResource extends Resource
             ->paginated(false)
             ->filters([
                 //
+            ])
+            ->emptyStateHeading('Belum Mengajukan Seminar Propposal')
+            ->emptyStateDescription(false)
+            ->emptyStateActions([
+                Action::make('create')
+                    ->label('Create post')
+                    ->url(CreatePengajuanProposal::getUrl())
+                    ->icon('heroicon-m-plus')
+                    ->button(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

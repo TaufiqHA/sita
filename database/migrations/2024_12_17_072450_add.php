@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('ujians', function (Blueprint $table) {
-            $table->enum('status_jadwal', ['Tidak Terjadwal', 'Terjadwal'])->default('Tidak Terjadwal');
+        Schema::table('seminars', function (Blueprint $table) {
+            $table->renameColumn('munaqisy1', 'penguji1');
+            $table->renameColumn('munaqisy2', 'penguji2');
         });
     }
 
@@ -21,8 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('ujians', function (Blueprint $table) {
-            $table->dropColumn('status_jadwal');
+        Schema::table('seminars', function (Blueprint $table) {
+            $table->renameColumn('penguji1', 'munaqisy1');
+            $table->renameColumn('penguji2', 'munaqisy2');
         });
     }
 };

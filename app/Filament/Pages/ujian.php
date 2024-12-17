@@ -34,7 +34,8 @@ class ujian extends Page implements HasTable
             ->columns([
                 TextColumn::make('mahasiswa.name')
                     ->searchable(),
-                TextColumn::make('status_pengajuan'),
+                TextColumn::make('tanggal_pengajuan')
+                    ->date(),
                 IconColumn::make('verifikasi')
                     ->boolean()
             ])

@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('hasil_turnitin')->nullable(); // Bisa null
             $table->date('tanggal_pengajuan')->nullable(); // Bisa null
             $table->enum('status_pengajuan', ['Pending', 'Disetujui'])->default('Pending'); // Status
+            $table->boolean('verifikasi')->default(false);
+            $table->enum('status_jadwal', ['Tidak Terjadwal', 'Terjadwal'])->default('Tidak Terjadwal');
 
             // Foreign key constraints
             $table->foreign('mahasiswa_id')->references('id')->on('mahasiswas')->onDelete('cascade');

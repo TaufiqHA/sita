@@ -3,6 +3,7 @@
 namespace App\Filament\Mahasiswa\Widgets;
 
 use Filament\Tables;
+use App\Models\Mahasiswa;
 use Filament\Tables\Table;
 use App\Models\PembimbingUjian;
 use Illuminate\Support\Facades\Auth;
@@ -47,5 +48,15 @@ class ProgressUjian extends BaseWidget
                     ]),
             ])
             ->paginated(false);
+    }
+
+    public static function canView(): bool
+    {
+        $mahasiswa = Mahasiswa::where('id', auth('mahasiswa')->user()->id)->first()->pembimbingUjian;
+        if($mahasiswa !== null) {
+            return true;
+        }
+        
+        return false;
     }
 }

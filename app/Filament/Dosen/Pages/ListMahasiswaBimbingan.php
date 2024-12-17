@@ -18,7 +18,7 @@ class ListMahasiswaBimbingan extends Page implements HasTable
 
     protected static string $view = 'filament.dosen.pages.list-mahasiswa-bimbingan';
 
-    protected static ?string $navigationLabel = 'Mahasiswa Bimbingan';
+    protected static ?string $navigationLabel = 'Mahasiswa Bimbingan Proposal';
 
     protected static ?string $navigationGroup = 'Pembimbing';
 
