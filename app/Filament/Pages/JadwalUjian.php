@@ -24,7 +24,7 @@ class JadwalUjian extends Page implements HasTable
 
     protected static ?string $navigationLabel = 'Jadwal Ujian';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 6;
 
     public function table(Table $table): Table
     {

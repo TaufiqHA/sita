@@ -21,7 +21,7 @@ class JadwalProposal extends Page implements HasTable
 
     protected static ?string $navigationGroup = 'Management Seminar Proposal';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 3;
 
     public function table(Table $table): Table
     {
@@ -38,6 +38,7 @@ class JadwalProposal extends Page implements HasTable
             ])
             ->actions([
                 EditAction::make()
+                    ->url(fn ($record) => publis_jadwal_proposal::getUrl(['record' => $record->id]))
             ]);
     }
 }

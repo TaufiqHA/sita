@@ -23,7 +23,7 @@ class SeminarHasil extends Page implements HasTable
 
     protected static ?string $navigationGroup = 'Management Seminar';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 4;
 
     public function table(Table $table): Table
     {

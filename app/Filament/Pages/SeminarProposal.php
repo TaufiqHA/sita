@@ -26,6 +26,8 @@ class SeminarProposal extends Page implements HasTable
     
     protected static ?string $navigationLabel = 'Pengajuan Seminar Proposal';
 
+    protected static ?int $navigationSort = 2;
+
     public function table(Table $table): Table
     {
         return $table 

@@ -27,6 +27,8 @@ class ujian extends Page implements HasTable
 
     protected static ?string $navigationLabel = 'Pengajuan Ujian Munaqasya';
 
+    protected static ?int $navigationSort = 5;
+
     public function table(Table $table): Table
     {
         return $table

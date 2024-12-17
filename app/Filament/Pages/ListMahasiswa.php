@@ -32,6 +32,8 @@ class ListMahasiswa extends Page implements HasTable
 
     protected static ?string $model = Mahasiswa::class;
 
+    protected static ?int $navigationSort = 0;
+
     protected function getHeaderActions(): array
     {
         return [
