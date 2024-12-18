@@ -20,6 +20,8 @@ class ListPengajuanProposal extends Page implements HasTable
 
     protected static ?string $navigationGroup = 'Manajement Seminar Proposal';
 
+    protected static ?int $navigationSort = 0;
+
     public function table(Table $table): Table
     {
         return $table

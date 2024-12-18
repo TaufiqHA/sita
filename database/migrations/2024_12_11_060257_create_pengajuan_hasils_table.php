@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('keterangan_pengumpulan_proposal');
             $table->date('tanggal_pengajuan')->nullable(); // Bisa null
             $table->enum('status_pengajuan', ['Pending', 'Disetujui'])->default('Pending');
+            $table->boolean('verifikasi')->default(false);
+            $table->enum('status_jadwal', ['Tidak Terjadwal', 'Terjadwal'])->default('Tidak Terjadwal');
             $table->timestamps();
         });
     }

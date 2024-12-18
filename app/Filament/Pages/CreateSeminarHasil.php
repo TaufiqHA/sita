@@ -4,19 +4,16 @@ namespace App\Filament\Pages;
 
 use Filament\Forms\Form;
 use Filament\Pages\Page;
-use App\Models\Pembimbing;
 use Filament\Actions\Action;
 use Illuminate\Http\Request;
 use App\Models\PengajuanHasil;
-use App\Models\PembimbingUjian;
-use App\Mail\PengajuanHasilMail;
-use App\Filament\Pages\SeminarHasil;
-use Illuminate\Support\Facades\Mail;
 use Filament\Support\Exceptions\Halt;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\TimePicker;
+use App\Filament\Pages\ListPengajuanHasil;
 use Filament\Forms\Concerns\InteractsWithForms;
 use App\Models\SeminarHasil as SeminarHasilModel;
 
@@ -42,15 +39,25 @@ class CreateSeminarHasil extends Page implements HasForms
     {
         return $form
             ->schema([
-                DatePicker::make('tanggal_seminar')
-                    ->label('Tanggal Seminar')
-                    ->required(),
-                TimePicker::make('waktu_seminar')
-                    ->label('Waktu Seminar')
-                    ->required(),
-                TextInput::make('ruangan')
-                    ->label('Ruangan')
-                    ->required(),
+                Fieldset::make('panitia')
+                    ->schema([
+                        TextInput::make('ketua'),
+                        TextInput::make('sekretaris'),
+                        TextInput::make('penguji1'),
+                        TextInput::make('penguji2'),
+                    ]),
+                Fieldset::make('jadwal')
+                    ->schema([
+                        DatePicker::make('tanggal_seminar')
+                            ->label('Tanggal Seminar')
+                            ->required(),
+                        TimePicker::make('waktu_seminar')
+                            ->label('Waktu Seminar')
+                            ->required(),
+                        TextInput::make('ruangan')
+                            ->label('Ruangan')
+                            ->required(),
+                    ])
             ])
             ->statePath('data');
     }
@@ -69,35 +76,26 @@ class CreateSeminarHasil extends Page implements HasForms
             $data = $this->form->getState();
 
             SeminarHasilModel::create([
+                'mahasiswa_id' => $this->hasil->mahasiswa->id,
                 'hasil_id' => $this->hasil->id,
+                'jenis_seminar' => 'Hasil',
+                'ketua' => $data['ketua'],
+                'sekretaris' => $data['sekretaris'],
+                'penguji1' => $data['penguji1'],
+                'penguji2' => $data['penguji2'],
+                'dospem1_id' => $this->hasil->mahasiswa->pembimbing->dospem1->id,
+                'dospem2_id' => $this->hasil->mahasiswa->pembimbing->dospem2->id,
                 'waktu_seminar' => $data['waktu_seminar'],
                 'tanggal_seminar' => $data['tanggal_seminar'],
                 'ruangan' => $data['ruangan'],
             ]);
 
             $this->hasil->update([
-                'status_pengajuan' => 'Disetujui'
+                'status_pengajuan' => 'Disetujui',
+                'status_jadwal' => 'Terjadwal'
             ]);
 
-            $mailData = [
-                'jenis' => 'Hasil',
-                'tanggal' => $data['tanggal_seminar'],
-                'waktu' => $data['waktu_seminar'],
-                'tempat' => $data['ruangan'],
-            ];
-
-            Mail::to($this->hasil->mahasiswa->email)->send(new PengajuanHasilMail($mailData));
-
-            $pembimbing = Pembimbing::where('mahasiswa_id', $this->hasil->mahasiswa_id)->first();
-
-            PembimbingUjian::insert([
-                'mahasiswa_id' => $pembimbing->mahasiswa_id,
-                'judul_id' => $pembimbing->judul_id,
-                'dospem1_id' => $pembimbing->dospem1->id,
-                'dospem2_id' => $pembimbing->dospem2->id,
-            ]);
-
-            return redirect(SeminarHasil::getUrl());
+            return redirect(ListPengajuanHasil::getUrl());
         } catch (Halt $exception) {
             return;
         }

@@ -42,8 +42,6 @@ class SeminarProposal extends Page implements HasTable
             ->actions([
                 ViewAction::make()
                     ->url(fn ($record) => ViewPengajuanSeminar::getUrl(['record' => $record->id])),
-                // EditAction::make()
-                //     ->url(fn ($record) => CreateSeminar::getUrl(['record' => $record->id]))
             ]);
     }
 }
