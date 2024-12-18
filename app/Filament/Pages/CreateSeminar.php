@@ -98,24 +98,6 @@ class CreateSeminar extends Page implements HasForms
                 'status_jadwal' => 'Terjadwal'
             ]);
 
-            // $mailData = [
-            //     'jenis' => 'Proposal',
-            //     'tanggal' => $data['tanggal_seminar'],
-            //     'waktu' => $data['waktu_seminar'],
-            //     'tempat' => $data['ruangan'],
-            // ];
-
-            // Mail::to($this->proposal->mahasiswa->email)->send(new PengajuanProposalMail($mailData));
-
-            // $pembimbing = Pembimbing::where('mahasiswa_id', $this->proposal->mahasiswa_id)->first();
-
-            // PembimbingHasil::insert([
-            //     'mahasiswa_id' => $pembimbing->mahasiswa_id,
-            //     'judul_id' => $pembimbing->judul_id,
-            //     'dospem1_id' => $pembimbing->dospem1->id,
-            //     'dospem2_id' => $pembimbing->dospem2->id,
-            // ]);
-
             return redirect(ListPengajuanProposal::getUrl());
         } catch (Halt $exception) {
             return;
