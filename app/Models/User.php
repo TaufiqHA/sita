@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, HasRoles;
@@ -51,20 +51,20 @@ class User extends Authenticatable implements FilamentUser
         ];
     }
 
-    public function canAccessPanel(Panel $panel): bool
-    {
-        if ($panel->getId() === 'admin') {
-            return Auth::user()->roles->contains('name', 'super_admin');
-        }elseif ($panel->getId() === 'mahasiswa') {
-            return Auth::user()->roles->contains('name', 'mahasiswa');
-        }elseif ($panel->getId() === 'kajur') {
-            return Auth::user()->roles->contains('name', 'kajur');
-        }elseif ($panel->getId() === 'sekjur') {
-            return Auth::user()->roles->contains('name', 'sekjur');
-        }elseif ($panel->getId() === 'dosen') {
-            return Auth::user()->roles->contains('name', 'dosen');
-        }
+    // public function canAccessPanel(Panel $panel): bool
+    // {
+    //     if ($panel->getId() === 'admin') {
+    //         return Auth::user()->roles->contains('name', 'super_admin');
+    //     }elseif ($panel->getId() === 'mahasiswa') {
+    //         return Auth::user()->roles->contains('name', 'mahasiswa');
+    //     }elseif ($panel->getId() === 'kajur') {
+    //         return Auth::user()->roles->contains('name', 'kajur');
+    //     }elseif ($panel->getId() === 'sekjur') {
+    //         return Auth::user()->roles->contains('name', 'sekjur');
+    //     }elseif ($panel->getId() === 'dosen') {
+    //         return Auth::user()->roles->contains('name', 'dosen');
+    //     }
 
-        return true;
-    }
+    //     return true;
+    // }
 }
