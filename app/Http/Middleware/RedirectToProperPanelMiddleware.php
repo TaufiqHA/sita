@@ -34,9 +34,9 @@ class RedirectToProperPanelMiddleware
             foreach ($roles as $role => $panel) {
                 if ($user->roles->contains('name', $role)) {
                     $redirectUrl = Dashboard::getUrl(panel: $panel);
-                    if (url()->current() !== $redirectUrl) { 
+                    if (!str_starts_with(url()->current(), $redirectUrl)) {
                         return redirect()->to($redirectUrl);
-                    }
+                    }                    
                 }
             }
         }
