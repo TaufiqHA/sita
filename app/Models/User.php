@@ -56,6 +56,11 @@ class User extends Authenticatable
         return $this->hasMany(PengajuanJudul::class);
     }
 
+    public function mahasiswaDetail()
+    {
+        return $this->hasOne(MahasiswaDetail::class);
+    }
+
     // public function canAccessPanel(Panel $panel): bool
     // {
     //     if ($panel->getId() === 'admin') {
