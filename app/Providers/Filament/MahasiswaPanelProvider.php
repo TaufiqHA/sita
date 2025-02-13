@@ -57,6 +57,7 @@ class MahasiswaPanelProvider extends PanelProvider
                     ]),
                 ]);
             })
+            ->spa()
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

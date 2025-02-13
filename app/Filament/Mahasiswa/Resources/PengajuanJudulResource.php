@@ -38,7 +38,7 @@ class PengajuanJudulResource extends Resource
                     ->previewable(),
                 PdfViewerField::make('outline')
                     ->label('View the PDF')
-                    ->minHeight('40svh'),
+                    ->minHeight('60svh'),
                 Forms\Components\Hidden::make('status')
                     ->default('diajukan'),
             ])
@@ -49,11 +49,9 @@ class PengajuanJudulResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user_id')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('judul')
-                    ->searchable(),
+                    ->searchable()
+                    ->limit(70),
                 Tables\Columns\TextColumn::make('status')
                     ->searchable()
                     ->badge()
@@ -68,11 +66,6 @@ class PengajuanJudulResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
             ])
             ->emptyStateHeading('Tidak Ada Judul yang Diajukan');
     }

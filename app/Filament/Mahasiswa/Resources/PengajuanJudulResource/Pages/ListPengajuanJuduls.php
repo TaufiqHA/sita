@@ -2,9 +2,10 @@
 
 namespace App\Filament\Mahasiswa\Resources\PengajuanJudulResource\Pages;
 
-use App\Filament\Mahasiswa\Resources\PengajuanJudulResource;
 use Filament\Actions;
+use Illuminate\Support\Facades\Auth;
 use Filament\Resources\Pages\ListRecords;
+use App\Filament\Mahasiswa\Resources\PengajuanJudulResource;
 
 class ListPengajuanJuduls extends ListRecords
 {
@@ -14,6 +15,10 @@ class ListPengajuanJuduls extends ListRecords
 
     protected function getHeaderActions(): array
     {
+        if(Auth::user()->pengajuanJudul->count() && Auth::user()->pengajuanJudul->count() === 3) {
+            return [];
+        }
+
         return [
             Actions\CreateAction::make()
                 ->label('Ajukan Judul'),
