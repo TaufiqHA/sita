@@ -60,6 +60,13 @@ class MahasiswaPanelProvider extends PanelProvider
                     ->items([
                         ...PengajuanJudulResource::getNavigationItems(),
                     ]),
+                    NavigationGroup::make('Bimbingan')
+                    ->items([
+                        NavigationItem::make('Bimbingan')
+                            ->icon('heroicon-o-chat-bubble-bottom-center-text')
+                            ->url('/chatify'),
+
+                    ]),
                 ]);
             })
             ->spa()
