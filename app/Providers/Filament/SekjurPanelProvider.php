@@ -2,12 +2,17 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Sekjur\Resources\SeminarResource;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
 use Filament\PanelProvider;
+use Filament\Pages\Dashboard;
 use Filament\Support\Colors\Color;
+use Filament\Navigation\NavigationItem;
+use Filament\Navigation\NavigationGroup;
 use Filament\Http\Middleware\Authenticate;
+use Filament\Navigation\NavigationBuilder;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Routing\Middleware\SubstituteBindings;
@@ -39,6 +44,19 @@ class SekjurPanelProvider extends PanelProvider
                 Widgets\AccountWidget::class,
                 Widgets\FilamentInfoWidget::class,
             ])
+            ->navigation(function (NavigationBuilder $builder): NavigationBuilder {
+                return $builder->items([
+                    NavigationItem::make('Dashboard')
+                        ->icon('heroicon-o-home')
+                        ->isActiveWhen(fn (): bool => request()->routeIs('filament.sekjur.pages.dashboard'))
+                        ->url(fn (): string => Dashboard::getUrl()),
+                ])->groups([
+                    NavigationGroup::make('Manajemen Seminar')
+                    ->items([
+                        ...SeminarResource::getNavigationItems(),
+                    ]),
+                ]);
+            })
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

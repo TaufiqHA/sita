@@ -56,7 +56,8 @@ class DosenPanelProvider extends PanelProvider
                     ->items([
                         NavigationItem::make('Bimbingan')
                             ->icon('heroicon-o-chat-bubble-bottom-center-text')
-                            ->url('/chatify'),
+                            ->url('/chatify')
+                            ->openUrlInNewTab(),
                         ...UserResource::getNavigationItems()
                     ]),
                 ]);

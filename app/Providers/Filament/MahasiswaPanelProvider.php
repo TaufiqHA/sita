@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Mahasiswa\Pages\JadwalProposal;
 use App\Filament\Mahasiswa\Pages\StatusHasil;
 use App\Filament\Mahasiswa\Pages\StatusProposal;
 use App\Filament\Mahasiswa\Pages\StatusUjian;
@@ -67,7 +68,8 @@ class MahasiswaPanelProvider extends PanelProvider
                     ->items([
                         NavigationItem::make('Bimbingan')
                             ->icon('heroicon-o-chat-bubble-bottom-center-text')
-                            ->url('/chatify'),
+                            ->url('/chatify')
+                            ->openUrlInNewTab(),
 
                     ]),
                     NavigationGroup::make('Status Bimbingan')
@@ -75,6 +77,10 @@ class MahasiswaPanelProvider extends PanelProvider
                         ...StatusProposal::getNavigationItems(),
                         ...StatusHasil::getNavigationItems(),
                         ...StatusUjian::getNavigationItems(),
+                    ]),
+                    NavigationGroup::make('Jadwal')
+                    ->items([
+                        ...JadwalProposal::getNavigationItems(),
                     ]),
                 ]);
             })

@@ -81,6 +81,11 @@ class User extends Authenticatable
         return $this->hasOne(BimbinganUjian::class, 'user_id');
     }
 
+    public function seminar()
+    {
+        return $this->hasMany(Seminar::class);
+    }
+
     // public function canAccessPanel(Panel $panel): bool
     // {
     //     if ($panel->getId() === 'admin') {
