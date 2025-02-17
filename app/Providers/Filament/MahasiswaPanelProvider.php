@@ -2,6 +2,9 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Mahasiswa\Pages\StatusHasil;
+use App\Filament\Mahasiswa\Pages\StatusProposal;
+use App\Filament\Mahasiswa\Pages\StatusUjian;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
@@ -66,6 +69,12 @@ class MahasiswaPanelProvider extends PanelProvider
                             ->icon('heroicon-o-chat-bubble-bottom-center-text')
                             ->url('/chatify'),
 
+                    ]),
+                    NavigationGroup::make('Status Bimbingan')
+                    ->items([
+                        ...StatusProposal::getNavigationItems(),
+                        ...StatusHasil::getNavigationItems(),
+                        ...StatusUjian::getNavigationItems(),
                     ]),
                 ]);
             })
