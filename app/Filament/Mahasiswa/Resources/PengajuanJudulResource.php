@@ -9,11 +9,13 @@ use Filament\Tables\Table;
 use App\Models\PengajuanJudul;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\Auth;
+use Filament\Tables\Actions\BulkAction;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Mahasiswa\Resources\PengajuanJudulResource\Pages;
 use Joaopaulolndev\FilamentPdfViewer\Forms\Components\PdfViewerField;
 use App\Filament\Mahasiswa\Resources\PengajuanJudulResource\RelationManagers;
+use Illuminate\Database\Eloquent\Collection;
 
 class PengajuanJudulResource extends Resource
 {
@@ -60,12 +62,17 @@ class PengajuanJudulResource extends Resource
                         'diterima' => 'success',
                         'ditolak' => 'danger',
                     }),
-                            ])
+            ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+            ])
+            ->bulkActions([
+                BulkAction::make('delete')
+                    ->requiresConfirmation()
+                    ->action(fn (Collection $records) => $records->each->delete())
             ])
             ->emptyStateHeading('Tidak Ada Judul yang Diajukan');
     }

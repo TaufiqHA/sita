@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Dosen\Resources\UserResource;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
@@ -55,7 +56,8 @@ class DosenPanelProvider extends PanelProvider
                     ->items([
                         NavigationItem::make('Bimbingan')
                             ->icon('heroicon-o-chat-bubble-bottom-center-text')
-                            ->url('/chatify')
+                            ->url('/chatify'),
+                        ...UserResource::getNavigationItems()
                     ]),
                 ]);
             })

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Kajur\Resources\UserResource\Pages;
 
+use App\Models\BimbinganUjian;
 use App\Models\User;
 use App\Models\Judul;
 use Filament\Forms\Form;
@@ -16,6 +17,8 @@ use Filament\Notifications\Notification;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use App\Filament\Kajur\Resources\UserResource;
+use App\Models\BimbinganHasil;
+use App\Models\BimbinganProposal;
 use Filament\Infolists\Contracts\HasInfolists;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
@@ -103,6 +106,37 @@ class AcceptJudul extends Page implements HasForms, HasInfolists
             'dospem1_id' => $data['dospem1_id'],
             'dospem2_id' => $data['dospem2_id'],
             'tanggal_disetujui' => now()
+        ]);
+
+        $mahasiswa = $this->judul->user;
+
+        $judul =  Judul::where('user_id', $mahasiswa->id)->first();
+
+        BimbinganProposal::create([
+            'user_id' => $this->judul->user_id,
+            'judul_id' => $judul->id,
+            'dospem1_id' => $data['dospem1_id'],
+            'dospem2_id' => $data['dospem2_id'],
+            'status_dospem1' => 'bimbingan',
+            'status_dospem2' => 'bimbingan',
+        ]);
+
+        BimbinganHasil::create([
+            'user_id' => $this->judul->user_id,
+            'judul_id' => $judul->id,
+            'dospem1_id' => $data['dospem1_id'],
+            'dospem2_id' => $data['dospem2_id'],
+            'status_dospem1' => 'bimbingan',
+            'status_dospem2' => 'bimbingan',
+        ]);
+
+        BimbinganUjian::create([
+            'user_id' => $this->judul->user_id,
+            'judul_id' => $judul->id,
+            'dospem1_id' => $data['dospem1_id'],
+            'dospem2_id' => $data['dospem2_id'],
+            'status_dospem1' => 'bimbingan',
+            'status_dospem2' => 'bimbingan',
         ]);
 
         Notification::make() 

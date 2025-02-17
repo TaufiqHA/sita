@@ -61,6 +61,26 @@ class User extends Authenticatable
         return $this->hasOne(MahasiswaDetail::class);
     }
 
+    public function judul()
+    {
+        return $this->hasOne(Judul::class);
+    }
+
+    public function bimbinganProposal()
+    {
+        return $this->hasOne(BimbinganProposal::class, 'user_id');
+    }
+    
+    public function bimbinganHasil()
+    {
+        return $this->hasOne(BimbinganHasil::class, 'user_id');
+    }
+
+    public function bimbinganUjian()
+    {
+        return $this->hasOne(BimbinganUjian::class, 'user_id');
+    }
+
     // public function canAccessPanel(Panel $panel): bool
     // {
     //     if ($panel->getId() === 'admin') {
