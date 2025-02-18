@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Mahasiswa\Pages\JadwalHasil;
 use App\Filament\Mahasiswa\Pages\JadwalProposal;
 use App\Filament\Mahasiswa\Pages\StatusHasil;
 use App\Filament\Mahasiswa\Pages\StatusProposal;
@@ -81,6 +82,7 @@ class MahasiswaPanelProvider extends PanelProvider
                     NavigationGroup::make('Jadwal')
                     ->items([
                         ...JadwalProposal::getNavigationItems(),
+                        ...JadwalHasil::getNavigationItems(),
                     ]),
                 ]);
             })
