@@ -20,12 +20,26 @@ class ListPengajuanJuduls extends ListRecords
             return [];
         }
 
+        if(Auth::user()?->mahasiswaDetail?->sks == null) {
+
+            Notification::make()
+                ->danger()
+                ->title('Lengkapi SKS')
+                ->send();
+
+            return [];
+        }
+
         if(Auth::user()->mahasiswaDetail->sks < 144) {
             Notification::make()
             ->title('SKS Belum Mencukupi')
             ->danger()
             ->send();
 
+            return [];
+        }
+
+        if(Auth::user()->pengajuanJudul->where('status', 'diterima')->count()) {
             return [];
         }
 

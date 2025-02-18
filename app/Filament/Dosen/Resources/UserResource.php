@@ -69,6 +69,7 @@ class UserResource extends Resource
                         ->url(fn (Model $record): string => infolistUjian::getUrl([$record->id])),
                 ])
             ])
+            ->recordUrl(false)
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),

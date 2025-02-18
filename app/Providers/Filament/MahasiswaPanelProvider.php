@@ -2,24 +2,26 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Mahasiswa\Pages\JadwalHasil;
-use App\Filament\Mahasiswa\Pages\JadwalProposal;
-use App\Filament\Mahasiswa\Pages\StatusHasil;
-use App\Filament\Mahasiswa\Pages\StatusProposal;
-use App\Filament\Mahasiswa\Pages\StatusUjian;
 use Filament\Pages;
 use Filament\Panel;
+use App\Models\User;
 use Filament\Widgets;
 use Filament\PanelProvider;
 use Filament\Pages\Dashboard;
 use Filament\Navigation\MenuItem;
 use Filament\Support\Colors\Color;
+use Illuminate\Support\Facades\Auth;
 use Filament\Navigation\NavigationItem;
 use Filament\Navigation\NavigationGroup;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Navigation\NavigationBuilder;
 use App\Filament\Mahasiswa\Pages\EditProfile;
+use App\Filament\Mahasiswa\Pages\JadwalHasil;
+use App\Filament\Mahasiswa\Pages\StatusHasil;
+use App\Filament\Mahasiswa\Pages\StatusUjian;
 use Illuminate\Session\Middleware\StartSession;
+use App\Filament\Mahasiswa\Pages\JadwalProposal;
+use App\Filament\Mahasiswa\Pages\StatusProposal;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
@@ -63,26 +65,63 @@ class MahasiswaPanelProvider extends PanelProvider
                 ])->groups([
                     NavigationGroup::make('Manajemen Judul')
                     ->items([
-                        ...PengajuanJudulResource::getNavigationItems(),
+                        NavigationItem::make('Pengajuan Judul')
+                            ->icon('heroicon-o-clipboard-document-list')
+                            ->url(PengajuanJudulResource::getUrl())
+                            ->visible(fn(): bool => Auth::user()?->mahasiswaDetail?->sks != null)
+                            ->isActiveWhen(fn (): bool => request()->routeIs(PengajuanJudulResource::getRouteBaseName() . '.*')),
                     ]),
                     NavigationGroup::make('Bimbingan')
                     ->items([
                         NavigationItem::make('Bimbingan')
                             ->icon('heroicon-o-chat-bubble-bottom-center-text')
                             ->url('/chatify')
-                            ->openUrlInNewTab(),
+                            ->openUrlInNewTab()
+                            ->visible(fn(): bool => User::where('id', Auth::user()->id)->whereHas('pengajuanJudul', function ($query) {
+                                $query->where('status', 'diterima');
+                            })->count()),
 
                     ]),
                     NavigationGroup::make('Status Bimbingan')
                     ->items([
-                        ...StatusProposal::getNavigationItems(),
-                        ...StatusHasil::getNavigationItems(),
-                        ...StatusUjian::getNavigationItems(),
+                        NavigationItem::make('Status Bimbingan Proposal')
+                            ->icon('heroicon-o-presentation-chart-bar')
+                            ->url(StatusProposal::getUrl())
+                            ->visible(fn(): bool => User::where('id', Auth::user()->id)->whereHas('pengajuanJudul', function ($query) {
+                                $query->where('status', 'diterima');
+                            })->count())
+                            ->isActiveWhen(fn (): bool => request()->routeIs(StatusProposal::getRouteName())),
+                        NavigationItem::make('Status Bimbingan Hasil')
+                            ->icon('heroicon-o-presentation-chart-line')
+                            ->url(StatusHasil::getUrl())
+                            ->visible(fn(): bool => User::where('id', Auth::user()->id)->whereHas('bimbinganProposal', function($query) {
+                                $query->where('status_dospem1', 'diterima')->where('status_dospem2', 'diterima');
+                            })->count())
+                            ->isActiveWhen(fn (): bool => request()->routeIs(StatusHasil::getRouteName())),
+                        NavigationItem::make('Status Bimbingan Skripsi')
+                            ->icon('heroicon-o-bookmark-square')
+                            ->url(StatusUjian::getUrl())
+                            ->visible(fn(): bool => User::where('id', Auth::user()->id)->whereHas('bimbinganHasil', function($query) {
+                                $query->where('status_dospem1', 'diterima')->where('status_dospem2', 'diterima');
+                            })->count())
+                            ->isActiveWhen(fn (): bool => request()->routeIs(StatusUjian::getRouteName())),
                     ]),
                     NavigationGroup::make('Jadwal')
                     ->items([
-                        ...JadwalProposal::getNavigationItems(),
-                        ...JadwalHasil::getNavigationItems(),
+                        NavigationItem::make('Jadwal Proposal')
+                            ->icon('heroicon-o-document-text')
+                            ->url(JadwalProposal::getUrl())
+                            ->visible(fn(): bool => User::where('id', Auth::user()->id)->whereHas('seminar', function($query) {
+                                $query->where('jenis_seminar', 'proposal');
+                            })->count())
+                            ->isActiveWhen(fn (): bool => request()->routeIs(JadwalProposal::getRouteName())),
+                        NavigationItem::make('Jadwal Hasil')
+                            ->icon('heroicon-o-document-text')
+                            ->url(JadwalHasil::getUrl())
+                            ->visible(fn(): bool => User::where('id', Auth::user()->id)->whereHas('seminar', function($query) {
+                                $query->where('jenis_seminar', 'hasil');
+                            })->count())
+                            ->isActiveWhen(fn (): bool => request()->routeIs(JadwalHasil::getRouteName())),
                     ]),
                 ]);
             })
