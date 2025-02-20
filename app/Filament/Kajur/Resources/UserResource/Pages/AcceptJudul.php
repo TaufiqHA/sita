@@ -2,23 +2,25 @@
 
 namespace App\Filament\Kajur\Resources\UserResource\Pages;
 
-use App\Models\BimbinganUjian;
 use App\Models\User;
 use App\Models\Judul;
 use Filament\Forms\Form;
 use Filament\Actions\Action;
+use App\Mail\NotifikasiJudul;
+use App\Models\BimbinganHasil;
+use App\Models\BimbinganUjian;
 use App\Models\PengajuanJudul;
 use Filament\Infolists\Infolist;
+use App\Models\BimbinganProposal;
 use Filament\Resources\Pages\Page;
 use function Laravel\Prompts\select;
+use Illuminate\Support\Facades\Mail;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\TextEntry;
 use App\Filament\Kajur\Resources\UserResource;
-use App\Models\BimbinganHasil;
-use App\Models\BimbinganProposal;
 use Filament\Infolists\Contracts\HasInfolists;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
@@ -100,6 +102,7 @@ class AcceptJudul extends Page implements HasForms, HasInfolists
     {
         $data = $this->form->getState();
 
+        // insert data ke database
         Judul::create([
             'user_id' => $this->judul->user_id,
             'judul' => $this->judul->judul,
@@ -112,6 +115,7 @@ class AcceptJudul extends Page implements HasForms, HasInfolists
 
         $judul =  Judul::where('user_id', $mahasiswa->id)->first();
 
+        // membuat bimbingan proposal
         BimbinganProposal::create([
             'user_id' => $this->judul->user_id,
             'judul_id' => $judul->id,
@@ -121,6 +125,7 @@ class AcceptJudul extends Page implements HasForms, HasInfolists
             'status_dospem2' => 'bimbingan',
         ]);
 
+        // membuat bimbingan hasil
         BimbinganHasil::create([
             'user_id' => $this->judul->user_id,
             'judul_id' => $judul->id,
@@ -130,6 +135,7 @@ class AcceptJudul extends Page implements HasForms, HasInfolists
             'status_dospem2' => 'bimbingan',
         ]);
 
+        // membuat bimbingan ujian
         BimbinganUjian::create([
             'user_id' => $this->judul->user_id,
             'judul_id' => $judul->id,
@@ -139,12 +145,15 @@ class AcceptJudul extends Page implements HasForms, HasInfolists
             'status_dospem2' => 'bimbingan',
         ]);
 
+        // kirim notifikasi
         Notification::make() 
             ->success()
             ->title('Judul Disetujui')
             ->send();
 
-        
+        //kirim email notifikasi
+        Mail::to('htaufiq225@gmail.com')->send(new NotifikasiJudul($judul));
+
         $this->judul->update([
             'status' => 'diterima'
         ]);
