@@ -86,20 +86,8 @@ class User extends Authenticatable
         return $this->hasMany(Seminar::class);
     }
 
-    // public function canAccessPanel(Panel $panel): bool
-    // {
-    //     if ($panel->getId() === 'admin') {
-    //         return Auth::user()->roles->contains('name', 'super_admin');
-    //     }elseif ($panel->getId() === 'mahasiswa') {
-    //         return Auth::user()->roles->contains('name', 'mahasiswa');
-    //     }elseif ($panel->getId() === 'kajur') {
-    //         return Auth::user()->roles->contains('name', 'kajur');
-    //     }elseif ($panel->getId() === 'sekjur') {
-    //         return Auth::user()->roles->contains('name', 'sekjur');
-    //     }elseif ($panel->getId() === 'dosen') {
-    //         return Auth::user()->roles->contains('name', 'dosen');
-    //     }
-
-    //     return true;
-    // }
+    public function ujian()
+    {
+        return $this->hasOne(Seminar::class);
+    }
 }

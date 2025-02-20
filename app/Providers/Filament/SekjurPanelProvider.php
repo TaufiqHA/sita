@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Sekjur\Resources\SeminarResource;
+use App\Filament\Sekjur\Resources\UjianResource;
 use Filament\Pages;
 use Filament\Panel;
 use Filament\Widgets;
@@ -54,6 +55,10 @@ class SekjurPanelProvider extends PanelProvider
                     NavigationGroup::make('Manajemen Seminar')
                     ->items([
                         ...SeminarResource::getNavigationItems(),
+                    ]),
+                    NavigationGroup::make('Manajemen Ujian')
+                    ->items([
+                        ...UjianResource::getNavigationItems(),
                     ]),
                 ]);
             })

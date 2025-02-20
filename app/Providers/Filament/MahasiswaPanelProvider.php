@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Mahasiswa\Pages\JadwalUjian;
 use Filament\Pages;
 use Filament\Panel;
 use App\Models\User;
@@ -122,6 +123,11 @@ class MahasiswaPanelProvider extends PanelProvider
                                 $query->where('jenis_seminar', 'hasil');
                             })->count())
                             ->isActiveWhen(fn (): bool => request()->routeIs(JadwalHasil::getRouteName())),
+                        NavigationItem::make('Jadwal Ujian')
+                            ->icon('heroicon-o-document-text')
+                            ->url(JadwalUjian::getUrl())
+                            ->visible(fn(): bool => User::where('id', Auth::user()->id)->whereHas('ujian')->count())
+                            ->isActiveWhen(fn (): bool => request()->routeIs(JadwalUjian::getRouteName())),
                     ]),
                 ]);
             })
