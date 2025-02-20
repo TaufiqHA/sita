@@ -152,7 +152,7 @@ class AcceptJudul extends Page implements HasForms, HasInfolists
             ->send();
 
         //kirim email notifikasi
-        Mail::to('htaufiq225@gmail.com')->send(new NotifikasiJudul($judul));
+        Mail::to($mahasiswa->email)->send(new NotifikasiJudul($judul));
 
         $this->judul->update([
             'status' => 'diterima'

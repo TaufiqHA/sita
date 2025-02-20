@@ -80,7 +80,7 @@ class MahasiswaPanelProvider extends PanelProvider
                             ->openUrlInNewTab()
                             ->visible(fn(): bool => User::where('id', Auth::user()->id)->whereHas('pengajuanJudul', function ($query) {
                                 $query->where('status', 'diterima');
-                            })->count()),
+                            })->exists()),
 
                     ]),
                     NavigationGroup::make('Status Bimbingan')
@@ -90,21 +90,21 @@ class MahasiswaPanelProvider extends PanelProvider
                             ->url(StatusProposal::getUrl())
                             ->visible(fn(): bool => User::where('id', Auth::user()->id)->whereHas('pengajuanJudul', function ($query) {
                                 $query->where('status', 'diterima');
-                            })->count())
+                            })->exists())
                             ->isActiveWhen(fn (): bool => request()->routeIs(StatusProposal::getRouteName())),
                         NavigationItem::make('Status Bimbingan Hasil')
                             ->icon('heroicon-o-presentation-chart-line')
                             ->url(StatusHasil::getUrl())
                             ->visible(fn(): bool => User::where('id', Auth::user()->id)->whereHas('bimbinganProposal', function($query) {
                                 $query->where('status_dospem1', 'diterima')->where('status_dospem2', 'diterima');
-                            })->count())
+                            })->exists())
                             ->isActiveWhen(fn (): bool => request()->routeIs(StatusHasil::getRouteName())),
                         NavigationItem::make('Status Bimbingan Skripsi')
                             ->icon('heroicon-o-bookmark-square')
                             ->url(StatusUjian::getUrl())
                             ->visible(fn(): bool => User::where('id', Auth::user()->id)->whereHas('bimbinganHasil', function($query) {
                                 $query->where('status_dospem1', 'diterima')->where('status_dospem2', 'diterima');
-                            })->count())
+                            })->exists())
                             ->isActiveWhen(fn (): bool => request()->routeIs(StatusUjian::getRouteName())),
                     ]),
                     NavigationGroup::make('Jadwal')
@@ -114,19 +114,19 @@ class MahasiswaPanelProvider extends PanelProvider
                             ->url(JadwalProposal::getUrl())
                             ->visible(fn(): bool => User::where('id', Auth::user()->id)->whereHas('seminar', function($query) {
                                 $query->where('jenis_seminar', 'proposal');
-                            })->count())
+                            })->exists())
                             ->isActiveWhen(fn (): bool => request()->routeIs(JadwalProposal::getRouteName())),
                         NavigationItem::make('Jadwal Hasil')
                             ->icon('heroicon-o-document-text')
                             ->url(JadwalHasil::getUrl())
                             ->visible(fn(): bool => User::where('id', Auth::user()->id)->whereHas('seminar', function($query) {
                                 $query->where('jenis_seminar', 'hasil');
-                            })->count())
+                            })->exists())
                             ->isActiveWhen(fn (): bool => request()->routeIs(JadwalHasil::getRouteName())),
                         NavigationItem::make('Jadwal Ujian')
                             ->icon('heroicon-o-document-text')
                             ->url(JadwalUjian::getUrl())
-                            ->visible(fn(): bool => User::where('id', Auth::user()->id)->whereHas('ujian')->count())
+                            ->visible(fn(): bool => User::where('id', Auth::user()->id)->whereHas('ujian')->exists())
                             ->isActiveWhen(fn (): bool => request()->routeIs(JadwalUjian::getRouteName())),
                     ]),
                 ]);

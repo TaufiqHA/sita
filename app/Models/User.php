@@ -88,6 +88,6 @@ class User extends Authenticatable
 
     public function ujian()
     {
-        return $this->hasOne(Seminar::class);
+        return $this->hasOne(Ujian::class);
     }
 }
