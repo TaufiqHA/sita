@@ -131,7 +131,6 @@ class MahasiswaPanelProvider extends PanelProvider
                     ]),
                 ]);
             })
-            ->topNavigation()
             ->spa()
             ->middleware([
                 EncryptCookies::class,
