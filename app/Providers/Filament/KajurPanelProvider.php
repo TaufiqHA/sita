@@ -59,6 +59,7 @@ class KajurPanelProvider extends PanelProvider
 
                 ]);
             })    
+            ->topNavigation()
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
