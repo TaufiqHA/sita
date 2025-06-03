@@ -35,7 +35,7 @@ class PengajuanJudulResource extends Resource
                     ->required(),
                 Forms\Components\FileUpload::make('outline')
                     ->required()
-                    ->directory('pengajuan_judul')
+                    ->directory('/pengajuan_judul')
                     ->downloadable()
                     ->previewable(),
                 PdfViewerField::make('outline')
